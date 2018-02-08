@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/activityBackground"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context="tanvir.crimelogger_aust.Activity.UserPostEdit">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardViewInUserPostEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                app:contentPadding="3dp">
+
+                <LinearLayout
+                    android:id="@+id/llInUserPostEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/imageViewPagerInUserPostEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp">
+
+
+                    </android.support.v4.view.ViewPager>
+
+                    <com.viewpagerindicator.CirclePageIndicator
+                        android:id="@+id/indicatorInUserPostEdit"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="bottom"
+                        android:padding="10dip"
+                        app:centered="true"
+                        app:fillColor="#FFFFFF"
+                        app:pageColor="@color/colorPrimaryDark"
+                        app:snap="false" />
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                app:cardCornerRadius="5dp"
+                app:contentPadding="5dp"
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_usernameInUserPostEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/crimePlaceETInUserPostEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Place" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/crimeDateETInUserPostEdit"
+                                android:layout_width="172dp"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:focusable="false"
+                                android:onClick="selectCrimeDateInPostEdit"
+                                android:hint="Select Date"
+                                android:inputType="textCapSentences" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp">
+
+                            <EditText
+                                android:id="@+id/crimeTimeETInUserPostEdit"
+                                android:layout_width="172dp"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:focusable="false"
+                                android:onClick="slectCrimeTimeInPostEdit"
+                                android:hint="Select Time"
+                                android:inputType="textCapSentences" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                    </LinearLayout>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp">
+
+                        <MultiAutoCompleteTextView
+                            android:id="@+id/crimeTypeETInUserPostEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Crime Type"
+                            android:inputType="textCapSentences" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp">
+
+                        <EditText
+
+                            android:id="@+id/crimeDescETInUserPostEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Description"
+                            android:inputType="textCapSentences|textMultiLine" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Button
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/white"
+                        android:text="Update post"
+                        android:onClick="updateUserPost"
+                        android:background="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="26dp"
+            android:onClick="addImageInUserPOstEditACTVT"
+            android:src="@drawable/add_image_camera"
+            app:fabSize="normal"
+            app:layout_anchor="@id/cardViewInUserPostEdit"
+            app:layout_anchorGravity="bottom|right" />
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+
+</ScrollView>

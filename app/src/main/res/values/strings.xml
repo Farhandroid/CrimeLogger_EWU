@@ -1,0 +1,611 @@
+<resources>
+    <string name="app_name">Crime Logger</string>
+
+
+    <string-array name="place_arrays">
+        <item>Bonosree,Dhaka</item>
+        <item>Aftab-Nagar,Dhaka</item>
+        <item>Gulshan 1,Dhaka</item>
+        <item>Gulshan 2,Dhaka</item>
+        <item>Hatirjheel,Dhaka</item>
+        <item>Banani,Dhaka</item>
+        <item>Boshundhara,R/A,Dhaka</item>
+        <item>Mirpur,Dhaka</item>
+        <item>JatraBari,Dhaka</item>
+        <item>ShantiNagar,Dhaka</item>
+        <item>MaliBag,Dhaka</item>
+        <item>MogBazar,Dhaka</item>
+        <item>Uttora,Dhaka</item>
+        <item>Dhanmondi,Dhaka</item>
+        <item>Shanker,Dhaka</item>
+        <item>MohammadPur,Dhaka</item>
+        <item>Mohakhali,Dhaka</item>
+        <item>Eskaton,Dhaka</item>
+        <item>BanglaMotor,Dhaka</item>
+        <item>FirmGate,Dhaka</item>
+        <item>Tejgaon,Dhaka</item>
+        <item>ShonirAkhra,Dhaka</item>
+        <item>sayedaBad,Dhaka</item>
+        <item>Gulistan,Dhaka</item>
+        <item>PuranDhaka,Dhaka</item>
+        <item>shadarGhat,Dhaka</item>
+        <item>Khilgaon,Dhaka</item>
+        <item>SouthBonosree,Dhaka</item>
+        <item>Rampura,Dhaka</item>
+        <item>Manikganj,Dhaka</item>
+        <item>Ramana,Dhaka</item>
+        <item>Dhanamandi,Dhaka</item>
+        <item>Sahabag,Dhaka</item>
+        <item>New Market,Dhaka</item>
+        <item>Lalabag,Dhaka</item>
+        <item>Kotayali,Dhaka</item>
+        <item>Hajaribag,Dhaka</item>
+        <item>Kamarangiracar,Dhaka</item>
+        <item>Sutrapur,Dhaka</item>
+        <item>Dema,Dhaka</item>
+        <item>Syamapura,Dhaka</item>
+        <item>Jatrabari,Dhaka</item>
+        <item>Motijheel,Dhaka</item>
+        <item>Sabujabag,Dhaka</item>
+        <item> Khilagao,Dhaka</item>
+        <item>Paltan,Dhaka</item>
+        <item>Airport Uttara,Dhaka</item>
+        <item>Turag Dhaka</item>
+        <item>Uttarakhan,Dhaka</item>
+        <item>Daksinakhan,Dhaka</item>
+        <item>Gulasan,Dhaka</item>
+        <item>Dhaka,Cantonment Dhaka</item>
+        <item>Badda,Dhaka</item>
+        <item>Tejagao,Dhaka</item>
+        <item>Mohammadapur,Dhaka</item>
+        <item>Adabar,Dhaka</item>
+        <item>Mirapur,Dhaka</item>
+        <item>Pallabi,Dhaka</item>
+        <item>Kafrul,Dhaka</item>
+        <item>Savar,Dhaka</item>
+        <item>Dhamarai,Dhaka</item>
+        <item>Keraniganj,Dhaka</item>
+        <item>Nababganj ,Dhaka</item>
+        <item>Ashuliya,Dohar,Dhaka</item>
+        <item>Dokkhin Keraniganj,Dhaka</item>
+        <item>Narayanganj,Dhaka</item>
+        <item> Fatulla,Dhaka</item>
+        <item>Bandar (Narayangonj),Dhaka</item>
+        <item>Shiddhirganj,Dhaka</item>
+        <item>Araihajar,Dhaka</item>
+        <item>Sonargao,Dhaka</item>
+        <item>Rupganj,Dhaka</item>
+        <item>Joydebpur,Dhaka</item>
+        <item>Tongi,Dhaka</item>
+        <item>Kaliyakair,Dhaka</item>
+        <item>Sripur,Dhaka</item>
+        <item>Kapasiya,Dhaka</item>
+        <item> Kaliganj,Dhaka</item>
+        <item>Manikganj,Dhaka</item>
+        <item>Ghior,Dhaka</item>
+        <item>Sibaloy,Dhaka</item>
+        <item>Daulatpur,Dhaka</item>
+        <item>Harirampur,Dhaka</item>
+        <item>Saturiya,Dhaka</item>
+        <item>Singair,Dhaka</item>
+        <item>Munsiganj,Dhaka</item>
+        <item>Tongibari,Dhaka</item>
+        <item>Lauhajang,Dhaka</item>
+        <item>Srinagar,Dhaka</item>
+        <item>Sirajdikhan,Dhaka</item>
+        <item>Gojariya,Dhaka</item>
+        <item>Narsingdi,Dhaka</item>
+        <item>Raypura,Dhaka</item>
+        <item>Shibpur,Dhaka</item>
+        <item>Belabo,Dhaka</item>
+        <item>Monohardi,Dhaka</item>
+        <item>Palash ,Dhaka</item>
+        <item>Kotwali Mayamanasinha,Dhaka</item>
+        <item>Muktagacha,Dhaka</item>
+        <item>Fulbari,Dhaka</item>
+        <item>Trisha,Dhaka</item>
+        <item>Gauripur,Dhaka</item>
+        <item>IswarGanj,Dhaka</item>
+        <item>Nandail,Dhaka</item>
+        <item>Haluyaghat,Dhaka</item>
+        <item>Dhobaura,Dhaka</item>
+        <item>Gaffargao,Dhaka</item>
+        <item>Valuka,Dhaka</item>
+        <item>Tarakandi,Dhaka</item>
+        <item>Tangail,Dhaka</item>
+        <item>Mirjapur,Dhaka</item>
+        <item>Nagorpur,Dhaka</item>
+        <item>Sakhipur,Dhaka</item>
+        <item>Basail,Dhaka</item>
+        <item>Delduar,Dhaka</item>
+        <item>Madhupur,Dhaka</item>
+        <item>Ghatail,Dhaka</item>
+        <item>Kalihati,Dhaka</item>
+        <item>Vuyapur,Dhaka</item>
+        <item> Jamuna Bridge East,Dhaka</item>
+        <item>Dhanbar,Dhaka</item>
+        <item>Gopalpur,Dhaka</item>
+        <item>Kishorgonj,Dhaka</item>
+        <item>Karimganj,Dhaka</item>
+        <item>Tarail,Dhaka</item>
+        <item>Hosenpur,Dhaka</item>
+        <item>Katiyadi,Dhaka</item>
+        <item>Bajittur,Dhaka</item>
+        <item>Kuliyarchar,Dhaka</item>
+        <item>Vairab,Dhaka</item>
+        <item>Itna,Dhaka</item>
+        <item>Mithamain,Dhaka</item>
+        <item>Nikl,Dhaka</item>
+        <item>Pakundiya,Dhaka</item>
+        <item>Astagram,Dhaka</item>
+        <item>Netrokona,Dhaka</item>
+        <item>BarahattaDhaka</item>
+        <item>KalmakandaDhaka</item>
+        <item>Atpara,Dhaka</item>
+        <item>Durgapur,Dhaka</item>
+        <item>Purbo Dhala,Dhaka</item>
+        <item>Kenduya,Dhaka</item>
+        <item>Modon,Dhaka</item>
+        <item>Mohanganj,Dhaka</item>
+        <item>Khalijuri,Dhaka</item>
+        <item>Sherpur,Dhaka</item>
+        <item>Nokla,Dhaka</item>
+        <item>Nalitabari,Dhaka</item>
+        <item>Shribardi,Dhaka</item>
+        <item>Jhinaigati,Dhaka</item>
+        <item>Jamalpur,Dhaka</item>
+        <item>MelandahDhaka</item>
+        <item>Sharisabari,Dhaka</item>
+        <item>Sharisabari,Dhaka</item>
+        <item>Islampur,Dhaka</item>
+        <item>Madarganj,Dhaka</item>
+        <item>Baksiganj,Dhaka</item>
+        <item>Bahadurabad,Dhaka</item>
+        <item>Faridpur Kotwali,Dhaka</item>
+        <item>Madhukhali,Dhaka</item>
+        <item>Boyalmari,Dhaka</item>
+        <item>Alaphadanga,Dhaka</item>
+        <item>Char Vodrosan,Dhaka</item>
+        <item>Nagarkanda,Dhaka</item>
+        <item>Sadarpur,Dhaka</item>
+        <item>Salta,Dhaka</item>
+        <item>Bhanga,Dhaka</item>
+        <item>Gopalganj,Dhaka</item>
+        <item> Makasudpur,Dhaka</item>
+        <item>Kasiyani ,Dhaka</item>
+        <item>Kotalipara,Dhaka</item>
+        <item>Tungipara,Dhaka</item>
+        <item>Madaripur,Dhaka</item>
+        <item>Rajoir,Dhaka</item>
+        <item>Kalkini,Dhaka</item>
+        <item>Sibachar,Dhaka</item>
+        <item>Rajbari ,Dhaka</item>
+        <item>Baliakandi ,Dhaka</item>
+        <item>Pangsha,Dhaka</item>
+        <item>Goyalanda,Dhaka</item>
+        <item>Gosairha,Dhaka</item>
+        <item>Vedargan,Dhaka</item>
+        <item>Damuddya,Dhaka</item>
+        <item>Jajira,Dhaka</item>
+        <item>Nariya,Dhaka</item>
+        <item>Palang,Dhaka</item>
+        <item>Shakhipur,Dhaka</item>
+    </string-array>
+
+
+    <string-array name="police_number">
+
+        <item> OC Savar / 01713373327</item>
+
+        <item> OC Dhamarai / 01713373328</item>
+
+        <item> OC Keraniganj / 01713373329</item>
+
+        <item> OC Nababganj / 01713373330</item>
+
+        <item> OC Dohar / 01713373331</item>
+
+        <item> OC Ashuliya / 01713373332</item>
+
+        <item> OC Dokkhin Keraniganj / 01713373333</item>
+
+        <item> OC Narayanganj / 01713373345</item>
+
+        <item> OC Fatulla / 01713373346</item>
+
+        <item> OC Bandar (Narayangonj) / 01713373347</item>
+
+        <item> OC Shiddhirganj / 01713373348</item>
+
+        <item> OC Araihajar / 01713373349</item>
+
+        <item> OC Sonargao / 01713373350</item>
+
+        <item> OC Rupganj / 01713373351</item>
+
+        <item> OC Joydebpur / 01713373363</item>
+
+        <item> OC Tongi / 01713373364</item>
+
+        <item> OC Kaliyakair / 01713373365</item>
+
+        <item> OC Sripur / 01713373366</item>
+
+        <item> OC Kapasiya / 01713373367</item>
+
+        <item> OC Kaliganj / 01713373368</item>
+
+        <item> OC Manikganj / 01713373379</item>
+
+        <item> OC Ghior / 01713373380</item>
+
+        <item> OC Sibaloy / 01713373381</item>
+
+        <item> OC Daulatpur / 01713373382</item>
+
+        <item> OC Harirampur / 01713373383</item>
+
+        <item> OC Saturiya / 01713373384</item>
+
+        <item> OC Singair / 01713373385</item>
+
+        <item> OC Munsiganj / 01713373396</item>
+
+        <item> OC Tongibari / 01713373397</item>
+
+        <item> OC Lauhajang / 01713373398</item>
+
+        <item> OC Srinagar / 01713373399</item>
+
+        <item> OC Sirajdikhan / 01713373400</item>
+
+        <item> OC Gojariya / 01713373401</item>
+
+        <item> OC Narsingdi / 01713373412</item>
+
+        <item> OC Raypura / 01713373413</item>
+
+        <item> OC Shibpur / 01713373414</item>
+
+        <item> OC Belabo / 01713373415</item>
+
+        <item> OC Monohardi / 01713373416</item>
+
+        <item> OC Palash / 01713373417</item>
+
+        <item> OC Kotwali Mayamanasinha / 01713373430</item>
+
+        <item> OC Muktagacha / 01713373431</item>
+
+        <item> OC Fulbari / 01713373432</item>
+
+        <item> OC Trishal / 01713373433</item>
+
+        <item> OC Gauripur / 01713373434</item>
+
+        <item> OC IswarGanj / 01713373435</item>
+
+        <item> OC Nandail / 01713373436</item>
+
+        <item> OC Fulpur / 01713373437</item>
+
+        <item> OC Haluyaghat / 01713373438</item>
+
+        <item> OC Dhobaura / 01713373439</item>
+
+        <item> OC Gaffargao / 01713373440</item>
+
+        <item> OC Valuka / 01713373441</item>
+
+        <item> OC Tarakandi / 01713373442</item>
+
+        <item> OC Tangail / 01713373454</item>
+
+        <item> OC Mirjapur / 01713373455</item>
+
+        <item> OC Nagorpur / 01713373456</item>
+
+        <item> OC Sakhipur / 01713373457</item>
+
+        <item> OC Basail / 01713373458</item>
+
+        <item> OC Delduar / 01713373459</item>
+
+        <item> OC Madhupur / 01713373460</item>
+
+        <item> OC Ghatail / 01713373461</item>
+
+        <item> OC Kalihati / 01713373462</item>
+
+        <item> OC Vuyapur / 01713373463</item>
+
+        <item> OC Jamuna Bridge East / 01713373464</item>
+
+        <item> OC Dhanbar / 01713373465</item>
+
+        <item> OC Gopalpur / 01713373466</item>
+
+        <item> OC Kishorgonj / 01713373480</item>
+
+        <item> OC Karimganj / 01713373481</item>
+
+        <item> OC Tarail / 01713373482</item>
+
+        <item> OC Hosenpur / 01713373483</item>
+
+        <item> OC Katiyadi / 01713373484</item>
+
+        <item> OC Bajittur / 01713373485</item>
+
+        <item> OC Kuliyarchar / 01713373486</item>
+
+        <item> OC Vairab / 01713373487</item>
+
+        <item> OC Itna / 01713373488</item>
+
+        <item> OC Mithamain / 01713373489</item>
+
+        <item> OC Nikli / 01713373490</item>
+
+        <item> OC Pakundiya / 01713373491</item>
+
+        <item> OC Astagram / 01713373492</item>
+
+        <item> OC Netrokona / 01713373505</item>
+
+        <item> OC Barahatta / 01713373506</item>
+
+        <item> OC Kalmakanda / 01713373507</item>
+
+        <item> OC Atpara / 01713373508</item>
+
+        <item> OC Durgapur / 01713373509</item>
+
+        <item> OC Purbo Dhala / 01713373510</item>
+
+        <item> OC Kenduya / 01713373511</item>
+
+        <item> OC Modon / 01713373512</item>
+
+        <item> OC Mohanganj / 01713373513</item>
+
+        <item> OC Khalijuri / 01713373514</item>
+
+        <item> OC Sherpur / 01713373523</item>
+
+        <item> OC Nokla / 01713373524</item>
+
+        <item> OC Nalitabari / 01713373525</item>
+
+        <item> OC Shribardi / 01713373526</item>
+
+        <item> OC Jhinaigati / 01713373527</item>
+
+        <item> OC Jamalpur / 01713373538</item>
+
+        <item> OC Melandah / 01713373539</item>
+
+        <item> OC Sharisabari / 01713373540</item>
+
+        <item> OC Deoyanganj / 01713373541</item>
+
+        <item> OC Islampur / 01713373542</item>
+
+        <item> OC Madarganj / 01713373543</item>
+
+        <item> OC Baksiganj / 01713373544</item>
+
+        <item> OC Bahadurabad / 01713373545</item>
+
+        <item> OC Faridpur Kotwali / 01713373556</item>
+
+        <item> OC Madhukhali / 01713373557</item>
+
+        <item> OC Boyalmari / 01713373558</item>
+
+        <item> OC Alaphadanga / 01713373559</item>
+
+        <item> OC Char Vodrosan / 01713373560</item>
+
+        <item> OC Nagarkanda / 01713373561</item>
+
+        <item> OC Sadarpur / 01713373562</item>
+
+        <item> OC Salta / 01713373563</item>
+
+        <item> OC Bhanga / 01713373564</item>
+
+        <item> OC Gopalganj / 01713373572</item>
+
+        <item> OC Makasudpur / 01713373573</item>
+
+        <item> OC Kasiyani / 01713373574</item>
+
+        <item> OC Kotalipara / 01713373575</item>
+
+        <item> OC Tungipara / 01713373576</item>
+
+        <item> OC Madaripur / 01713373585</item>
+
+        <item> OC Rajoir / 01713373586</item>
+
+        <item> OC Kalkini / 01713373587</item>
+
+        <item> OC Sibachar / 01713373588</item>
+
+        <item> OC Rajbari / 01713373598</item>
+
+        <item> OC Baliakandi / 01713373599</item>
+
+        <item> OC Pangsha / 01713373600</item>
+
+        <item> OC Goyalanda / 01713373601</item>
+
+        <item> OC Gosairha / 01713373612</item>
+
+        <item> OC Vedarganj / 01713373613</item>
+
+        <item> OC Damuddya / 01713373614</item>
+
+        <item> OC Jajira / 01713373615</item>
+
+        <item> OC Nariya / 01713373616</item>
+
+        <item> OC Palang / 01713373617</item>
+
+        <item> OC Shakhipur / 01713373618</item>
+
+        <item> OC Ramana / 01713373125</item>
+        <item> OC Dhanamandi / 01713373126</item>
+        <item> OC Sahabag / 01713373127</item>
+        <item> OC New Market / 01713373128</item>
+        <item> OC Lalabag / 01713373134</item>
+        <item> OC Kotayali / 01713373135</item>
+        <item> OC Hajaribag / 01713373136</item>
+        <item> OC Kamarangiracar / 01713373137</item>
+        <item> OC Sutrapur / 01713373143</item>
+        <item> OC Demar / 01713373144</item>
+        <item> OC Syamapur / 01713373145</item>
+        <item> OC Jatrabari / 01713373146</item>
+        <item> OC Matijheel / 01713373152</item>
+        <item> OC Sabujabag / 01713373153</item>
+        <item> OC Khilgaon / 01713373154</item>
+        <item> OC Paltan / 01713373155</item>
+        <item> OC Uttara / 01713373161</item>
+        <item> OC Airport / 01713373162</item>
+        <item> OC Turag / 01713373163</item>
+        <item> OC Uttarakhan / 01713373164</item>
+        <item> OC Daksinakhan / 01713373165</item>
+        <item> OC Gulsan / 01713373171</item>
+        <item> OC Dhaka Cantonment / 01713373172</item>
+        <item> OC Badda / 01713373173</item>
+        <item> OC Khilakhet / 01713373174</item>
+        <item> OC Tejgaon / 01713373180</item>
+        <item> OC Tejgaon Industrial Area / 01713373181</item>
+        <item> OC Mohammadpur / 01713373182</item>
+        <item> OC Adabar / 01713373183</item>
+        <item> OC Mirpur / 01713373189</item>
+        <item> OC Pallabi / 01713373190</item>
+        <item> OC Kafrul / 01713373191</item>
+        <item> OC Shah Ali / 01713373192</item>
+
+        <item> OC Kotwali, CMP / 01713373256</item>
+
+        <item>OC Pahartali (North Zone) / 01713373257</item>
+
+        <item> OC Panchlaish / 01713373258</item>
+
+        <item> OC Chandgao / 01713373259</item>
+
+        <item> OC Khulasi / 01713373260</item>
+
+        <item> OC Bakoliya / 01713373261</item>
+
+        <item> OC Bayezid Bostami / 01713373262</item>
+
+        <item> OC Bandar / 01713373267</item>
+
+        <item> OC Double Muring / 01713373268</item>
+
+        <item> OC Halisahar / 01713373269</item>
+
+        <item> OC Patenga / 01713373270</item>
+
+        <item> OC Karnaphuli / 01713373271</item>
+
+        <item> OC Immigration (Bandar) / 01713373272</item>
+
+        <item> OC Pahartali (Bandar Zone) / 01713373273</item>
+
+        <item>OC Khulana / 01713373285</item>
+
+        <item>OC Sonadanga / 01713373286</item>
+
+        <item>OC Khalisapur / 01713373287</item>
+
+        <item>OC Daulatapur / 01713373288</item>
+
+        <item>OC Khan Jahan Ali / 01713373289</item>
+
+        <item> OC Boyaliya / 01713373309</item>
+
+        <item> OC Rajpara / 01713373310</item>
+
+        <item> OC Matihar / 01713373311</item>
+
+        <item> OC Shah Makhdum / 01713373312</item>
+
+    </string-array>
+
+
+    <string-array name="crime_type">
+
+        <item>Aiding and Abetting / Accessory</item>
+        <item>Assault / Battery</item>
+        <item>Drug Possession</item>
+        <item>Burglary</item>
+        <item>Theft / Larceny</item>
+        <item>Arson</item>
+        <item>Aggravated Assault / Battery</item>
+        <item>Attempt</item>
+        <item>Bribery</item>
+        <item>Blackmail</item>
+        <item>Hijacking</item>
+        <item>Cheating</item>
+        <item>Child Abandonment</item>
+        <item>Child Abuse</item>
+        <item>Child Pornography</item>
+        <item>Computer Crime</item>
+        <item>Conspiracy</item>
+        <item>Credit / Debit Card Fraud</item>
+        <item>Criminal Contempt of Court</item>
+        <item>Cyber Bullying</item>
+        <item>Disorderly Conduct</item>
+        <item>Disturbing the Peace</item>
+        <item>Domestic Violence</item>
+        <item>Drug Manufacturing and Cultivation</item>
+        <item>Drug Trafficking / Distribution</item>
+        <item>DUI / DWI</item>
+        <item>Embezzlement</item>
+        <item>Extortion</item>
+        <item>Forgery</item>
+        <item>Fraud</item>
+        <item>Harassment</item>
+        <item>Hate Crimes</item>
+        <item>Homicide</item>
+        <item>Indecent Exposure</item>
+        <item>Identity Theft</item>
+        <item>Insurance Fraud</item>
+        <item>Kidnapping</item>
+        <item>Manslaughter: Involuntary</item>
+        <item>Manslaughter: Voluntary</item>
+        <item>Medical Marijuana</item>
+        <item>MIP: A Minor in Possession</item>
+        <item>Money Laundering</item>
+        <item>Murder: First-degree</item>
+        <item>Murder: Second-degree</item>
+        <item>Open Container Law</item>
+        <item>Perjury</item>
+        <item>Probation Violation</item>
+        <item>Prostitution</item>
+        <item>Public Intoxication</item>
+        <item>Pyramid Schemes</item>
+        <item>Racketeering / RICO</item>
+        <item>Rape</item>
+        <item>Robbery</item>
+        <item> Securities Fraud</item>
+        <item>Sexual Assault</item>
+        <item>Shoplifting</item>
+        <item> Solicitation</item>
+        <item>Stalking</item>
+        <item>Statutory Rape</item>
+        <item>Tax Evasion / Fraud</item>
+        <item>Telemarketing Fraud</item>
+        <item>Vandalism</item>
+        <item>White Collar Crimes</item>
+        <item>Wire Fraud</item>
+        <item>Fraud</item>
+
+    </string-array>
+
+</resources>

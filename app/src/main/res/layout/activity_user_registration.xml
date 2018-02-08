@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activityBackground"
+    tools:context="tanvir.crimelogger_aust.Activity.UserRegistration">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_marginTop="35dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/empty_profile"
+                app:civ_border_color="#FFFFFF"
+                app:civ_border_width="2dp" />
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginTop="40dp"
+                android:layout_below="@id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/nameInSignUpPage"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+                    android:id="@+id/nameInSignUpActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_below="@id/nameInSignUpPage"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/gmailLayoutInSignUpPage"
+                android:layout_width="@dimen/widthInUserResgistratio"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+
+                    android:id="@+id/emailInSignUP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_below="@id/gmailLayoutInSignUpPage"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/phoneNumberInSignUpPage"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+                    android:id="@+id/phoneNumberInSignUpActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone Number" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_below="@id/phoneNumberInSignUpPage"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/userNameInSignUpPage"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+                    android:id="@+id/userNameInSignUpActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Username" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_below="@id/userNameInSignUpPage"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/passwordLayoutInSignUpPage"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true"
+                >
+
+                <EditText
+                    android:id="@+id/passwordInSignUP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:layout_below="@id/passwordLayoutInSignUpPage"
+                android:id="@+id/signUpButtonLL"
+                android:layout_width="@dimen/widthInUserResgistratio"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/signUpBTN"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:onClick="insertUserRegistrationDataToServer"
+                    android:text="Sign Up"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="20dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@id/signUpButtonLL"
+                android:id="@+id/memberLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/signUpButtonLL"
+                    android:text="Already a member ? "
+                    android:id="@+id/member"
+                    android:layout_marginLeft="90dp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <TextView
+                    android:onClick="startLoginActivity"
+                    android:id="@+id/login"
+                    android:clickable="true"
+                    android:layout_toRightOf="@id/member"
+                    android:layout_alignBottom="@id/member"
+                    android:layout_below="@id/signUpButtonLL"
+                    android:text=" Login "
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:clickable="true"
+            android:onClick="showImagePickerDialog"
+            app:layout_anchor="@id/profile_image"
+            app:layout_anchorGravity="bottom|right"
+            android:src="@drawable/add_image_camera"/>
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+
+
+</ScrollView>
+
+
+
+
+

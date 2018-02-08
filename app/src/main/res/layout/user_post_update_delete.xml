@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:padding="11dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/ic_action_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="3.5dp"
+            android:id="@+id/deleteConfirmation"
+            android:text="Update Or Delete  Post..."
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="5dp"
+        android:id="@+id/updatePost"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/create_awareness"
+            android:padding="7dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Post"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/colorPrimaryDarker"/>
+
+    <LinearLayout
+        android:padding="5dp"
+        android:clickable="true"
+        android:id="@+id/deletePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:padding="7dp"
+            android:src="@drawable/delete_color"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Post"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
