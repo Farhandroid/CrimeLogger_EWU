@@ -3,6 +3,7 @@ package tanvir.crimelogger_aust.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -32,6 +33,10 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.sdsmdg.tastytoast.TastyToast;
+import com.skydoves.powermenu.MenuAnimation;
+import com.skydoves.powermenu.OnMenuItemClickListener;
+import com.skydoves.powermenu.PowerMenu;
+import com.skydoves.powermenu.PowerMenuItem;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONArray;
@@ -56,6 +61,8 @@ public class PostViewActivity extends AppCompatActivity {
     CustomSwipeAdapterForPostView customSwipeAdapter;
     ViewPager viewPager;
     AlertDialog alertDialog;
+
+    PowerMenu powerMenu;
 
     CardView imageCardViewInPostViewActivity;
 
@@ -773,4 +780,36 @@ public class PostViewActivity extends AppCompatActivity {
     }
 
 
+    public void testPowerMenu(View view) {
+
+        Context context=PostViewActivity.this;
+
+        powerMenu = new PowerMenu.Builder(PostViewActivity.this)
+                //.addItemList(list) // list has "Novel", "Poerty", "Art"
+                .addItem(new PowerMenuItem("Journals", false))
+                .addItem(new PowerMenuItem("Travel", false))
+                .setAnimation(MenuAnimation.SHOWUP_TOP_LEFT) // Animation start point (TOP | LEFT)
+                .setMenuRadius(10f)
+                .setMenuShadow(10f)
+                .setTextColor(context.getResources().getColor(R.color.black))
+                .setSelectedTextColor(Color.WHITE)
+                .setMenuColor(Color.WHITE)
+                .setSelectedMenuColor(context.getResources().getColor(R.color.colorPrimary))
+                .setOnMenuItemClickListener(onMenuItemClickListener)
+                .build();
+
+        powerMenu.showAsDropDown(view);
+
+
+    }
+
+
+    private  OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
+        @Override
+        public void onItemClick(int position, PowerMenuItem item) {
+            Toast.makeText(getBaseContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+            powerMenu.setSelectedPosition(position); // change selected item
+            powerMenu.dismiss();
+        }
+    };
 }
