@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,10 +59,14 @@ import tanvir.crimelogger_aust.R;
 public class PostViewActivity extends AppCompatActivity {
 
 
-
     CustomSwipeAdapterForPostView customSwipeAdapter;
     ViewPager viewPager;
-    AlertDialog alertDialog;
+    AlertDialog reportAlertDialog;
+
+    SharedPreferences prefs;
+    private String isLogged = "";
+
+    Context context = PostViewActivity.this;
 
     PowerMenu powerMenu;
 
@@ -69,15 +75,23 @@ public class PostViewActivity extends AppCompatActivity {
 
     ArrayList<String> imageName;
 
+    boolean isReported = false;
+
+    private String reportInfo = "";
+
     ArrayList<UserPostMC> userPostMCS;
+    private String howManyReport = "";
     private String postDateAndTime;
     private String userName;
+    private String loggedInUserName="";
 
     CircleImageView userImageInPostView;
+    private Button reportButton;
 
     int NUM_PAGES = 0;
 
     KProgressHUD hud;
+    AlertDialog alertDialog;
 
 
     private int positionIfNeedToBeDeleted = 0;
@@ -115,14 +129,15 @@ public class PostViewActivity extends AppCompatActivity {
         postEditBTNDataCardView = findViewById(R.id.postEditBTNDataCardView);
         postEditBTNImageCardView = findViewById(R.id.postEditBTNImageCardView);
         userImageInPostView = findViewById(R.id.userImageInPostView);
+        reportButton=findViewById(R.id.reportBTN);
 
 
-   ;
+
 
 
         postDateAndTime = getIntent().getStringExtra("postDateAndTime");
 
-       //// Toast.makeText(this, "postDateAndTime : "+ postDateAndTime, Toast.LENGTH_LONG).show();
+
 
         cameFromWhichActivity = getIntent().getStringExtra("cameFromWhichActivity");
 
@@ -130,13 +145,11 @@ public class PostViewActivity extends AppCompatActivity {
         if (postDateAndTime.length() > 0) {
 
             retrivePostDataFromSharedpreference();
-            ///Toast.makeText(this, "postDateAndTime : "+postDateAndTime, Toast.LENGTH_SHORT).show();
+
         } else
             Toast.makeText(this, "postDateAndTime not found in Postview activity", Toast.LENGTH_SHORT).show();
 
-        ///UserPostMC userPostMC = databaseHelper.getPostFromDB(postDateAndTime);
 
-        ///crimePlaceTV.setText(userPostMC.getCrimePlace());*/
 
         initializeKHUDprogress();
 
@@ -150,7 +163,6 @@ public class PostViewActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.imageViewPagerInPostView);
         NUM_PAGES = imageName.size();
-
 
 
         customSwipeAdapter = new CustomSwipeAdapterForPostView(this, imageName, 0, hud);
@@ -173,11 +185,7 @@ public class PostViewActivity extends AppCompatActivity {
         userPostMCS = new ArrayList<>(Arrays.asList(text));
 
         if (userPostMCS.size() > 0) {
-           /* Toast.makeText(this, "Arraylist Found", Toast.LENGTH_SHORT).show();
 
-            for (int i = 0; i < userPostMCS.size(); i++) {
-                Toast.makeText(this, "i = " + Integer.toString(i) + "Value = " + userPostMCS.get(i).getPostDateAndTime(), Toast.LENGTH_SHORT).show();
-            }*/
         } else
             Toast.makeText(this, "Arraylist did'nt Found in postview activity", Toast.LENGTH_SHORT).show();
 
@@ -197,6 +205,7 @@ public class PostViewActivity extends AppCompatActivity {
                 crimeDescriptionTV.setText(userPostMCS.get(i).getCrimeDesc());
                 postedByTV.setText(userPostMCS.get(i).getUserName());
                 userName = userPostMCS.get(i).getUserName();
+                howManyReport = userPostMCS.get(i).getHowManyReport();
 
                 getPositionForSeparateDateAndTime();
 
@@ -229,16 +238,13 @@ public class PostViewActivity extends AppCompatActivity {
 
         int p = postDateAndTime.indexOf(" ");
 
-        ///Toast.makeText(this, "position : "+Integer.toString(p), Toast.LENGTH_SHORT).show();
-
         return p;
     }
 
     public void retrivePostImageDataFromServer() {
 
         hud.show();
-        new Thread(new Runnable() {
-            public void run() {
+
 
                 String url = "http://www.farhandroid.com/CrimeLogger/Script/retrivePostImageData.php";
 
@@ -247,8 +253,6 @@ public class PostViewActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(final String response) {
                                 hud.dismiss();
-
-
 
 
                                 if (response.contains("image data not found")) {
@@ -274,8 +278,6 @@ public class PostViewActivity extends AppCompatActivity {
                                         });
 
 
-                                        //if (jsonArray.length()>0)
-                                        /// Toast.makeText(PostViewActivity.this, "Image data found", Toast.LENGTH_SHORT).show();
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -332,7 +334,7 @@ public class PostViewActivity extends AppCompatActivity {
                     }
                 };
 
-                stringRequest.setRetryPolicy(new DefaultRetryPolicy(90000,
+                stringRequest.setRetryPolicy(new DefaultRetryPolicy(40000,
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -340,8 +342,8 @@ public class PostViewActivity extends AppCompatActivity {
                 MySingleton.getInstance(PostViewActivity.this).addToRequestQueue(stringRequest);
 
 
-            }
-        }).start();
+
+
 
 
     }
@@ -365,10 +367,15 @@ public class PostViewActivity extends AppCompatActivity {
     }
 
 
-
     public void startMainActivity() {
         Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-        myIntent.putExtra("cameFromWhichActivity", "PostViewActivity");
+
+        if (isReported) {
+            myIntent.putExtra("cameFromWhichActivity", "PostViewActivityWithReport");
+        } else {
+            myIntent.putExtra("cameFromWhichActivity", "PostViewActivity");
+        }
+
         myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         this.startActivity(myIntent);
         overridePendingTransition(R.anim.left_in, R.anim.left_out);
@@ -421,14 +428,11 @@ public class PostViewActivity extends AppCompatActivity {
 
                 hud.show();
 
-                new Thread(new Runnable() {
-                    public void run() {
+
 
                         deleteUserPostData();
 
 
-                    }
-                }).start();
 
             }
         });
@@ -436,7 +440,9 @@ public class PostViewActivity extends AppCompatActivity {
 
 
     public void deleteUserPostData() {
-        alertDialog.dismiss();
+
+        if (isReported==false)
+            alertDialog.dismiss();
         String url = "http://www.farhandroid.com/CrimeLogger/Script/deleteUserPost.php";
 
 
@@ -448,7 +454,6 @@ public class PostViewActivity extends AppCompatActivity {
 
                         PostViewActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
-                                ///Toast.makeText(PostViewActivity.this, "post response  : " + response.toString(), Toast.LENGTH_LONG).show();
 
                                 if (response.contains("Post delete Success")) {
                                     successInUserPostDataDelete = true;
@@ -516,7 +521,7 @@ public class PostViewActivity extends AppCompatActivity {
             }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(90000,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -542,10 +547,6 @@ public class PostViewActivity extends AppCompatActivity {
 
 
 
-                            PostViewActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    /// Toast.makeText(UserCreatePost.this, "image respone : " + response, Toast.LENGTH_SHORT).show();
-
                                     if (response.contains("ImageName delete Success") && response.contains("image delete success")) {
                                         successInUserPostImageDelete = true;
 
@@ -566,8 +567,6 @@ public class PostViewActivity extends AppCompatActivity {
 
 
 
-                                }
-                            });
 
 
                         }
@@ -610,7 +609,6 @@ public class PostViewActivity extends AppCompatActivity {
                     Map<String, String> params = new HashMap<>();
 
 
-
                     params.put("deleteImageName", imageName.get(position));
 
                     return params;
@@ -618,7 +616,7 @@ public class PostViewActivity extends AppCompatActivity {
                 }
             };
 
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(90000,
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(40000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -626,7 +624,6 @@ public class PostViewActivity extends AppCompatActivity {
             MySingleton.getInstance(this).addToRequestQueue(stringRequest);
 
         }
-
 
 
     }
@@ -641,13 +638,21 @@ public class PostViewActivity extends AppCompatActivity {
         });
 
 
-
-
         if (successInUserPostDataDelete == true && successInUserPostImageDelete == true) {
-            TastyToast.makeText(getApplicationContext(), "Post Deleted Successfuly", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
 
-            removeDataFromSharedPrefference();
-            startUserProfileActivity("show");
+            if (isReported==false)
+            {
+                TastyToast.makeText(getApplicationContext(), "Post Deleted Successfuly", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                removeDataFromSharedPrefference();
+                startUserProfileActivity("show");
+            }
+            else
+            {
+
+            }
+
+
+
 
         } else if (successInUserPostDataDelete == false) {
             showErrorInMainThread("problem in user post Data delete \nplease contact with devloper or try later");
@@ -655,8 +660,6 @@ public class PostViewActivity extends AppCompatActivity {
         } else if (successInUserPostImageDelete == false) {
             showErrorInMainThread("problem in user post image delete \nplease contact with devloper or try later");
         }
-
-
 
 
     }
@@ -690,7 +693,10 @@ public class PostViewActivity extends AppCompatActivity {
             if (cameFromWhichActivity.equals("MainActivity") || cameFromWhichActivity.equals("don't show edit button")) {
                 postEditBTNImageCardView.setVisibility(View.GONE);
                 postEditBTNDataCardView.setVisibility(View.GONE);
+                reportButton.setVisibility(View.VISIBLE);
             } else if (cameFromWhichActivity.equals("show edit menu")) {
+
+                reportButton.setVisibility(View.GONE);
                 if (imageContain) {
                     postEditBTNImageCardView.setVisibility(View.VISIBLE);
                     postEditBTNDataCardView.setVisibility(View.GONE);
@@ -756,7 +762,7 @@ public class PostViewActivity extends AppCompatActivity {
         myIntent.putExtra("cameFromWhichActivity", activity);
 
         if (activity.contains("don't show edit button"))
-            myIntent.putExtra("userName",userName);
+            myIntent.putExtra("userName", userName);
 
         myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         this.startActivity(myIntent);
@@ -769,11 +775,9 @@ public class PostViewActivity extends AppCompatActivity {
 
         if (cameFromWhichActivity.equals("don't show edit button"))
             startUserProfileActivity("don't show edit button");
-        else if (cameFromWhichActivity.equals("show edit menu"))
-        {
+        else if (cameFromWhichActivity.equals("show edit menu")) {
             startUserProfileActivity("show edit menu");
-        }
-        else
+        } else
             startMainActivity();
 
 
@@ -782,13 +786,11 @@ public class PostViewActivity extends AppCompatActivity {
 
     public void testPowerMenu(View view) {
 
-        Context context=PostViewActivity.this;
 
         powerMenu = new PowerMenu.Builder(PostViewActivity.this)
-                //.addItemList(list) // list has "Novel", "Poerty", "Art"
-                .addItem(new PowerMenuItem("Journals", false))
-                .addItem(new PowerMenuItem("Travel", false))
-                .setAnimation(MenuAnimation.SHOWUP_TOP_LEFT) // Animation start point (TOP | LEFT)
+
+                .addItem(new PowerMenuItem("Report", false))
+                .setAnimation(MenuAnimation.SHOWUP_TOP_LEFT)
                 .setMenuRadius(10f)
                 .setMenuShadow(10f)
                 .setTextColor(context.getResources().getColor(R.color.black))
@@ -804,12 +806,206 @@ public class PostViewActivity extends AppCompatActivity {
     }
 
 
-    private  OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
+    private OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
         @Override
         public void onItemClick(int position, PowerMenuItem item) {
-            Toast.makeText(getBaseContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-            powerMenu.setSelectedPosition(position); // change selected item
-            powerMenu.dismiss();
+
+
+            if (item.getTitle().equals("Report")) {
+                showReportDialog();
+                powerMenu.setSelectedPosition(position);
+                powerMenu.dismiss();
+            } else {
+                Toast.makeText(context, "Error in power menu", Toast.LENGTH_SHORT).show();
+                powerMenu.setSelectedPosition(position);
+                powerMenu.dismiss();
+            }
+
         }
     };
+
+    public void showReportDialog() {
+
+        checkLoginSharedPrefference();
+
+        if (isLogged != null) {
+            if (isLogged.contains("yes")) {
+
+                loggedInUserName = prefs.getString("userName", null);
+
+                final View reportSubMitDialogView;
+
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                reportSubMitDialogView = inflater.inflate(R.layout.report_dialog, null);
+
+                final EditText editText = reportSubMitDialogView.findViewById(R.id.reportInfo);
+
+                final Button reportSubmitBTN = reportSubMitDialogView.findViewById(R.id.reportSubMitButton);
+
+                reportSubmitBTN.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        if (editText.getText().toString().length() > 0) {
+                            reportAlertDialog.dismiss();
+
+                            reportInfo = editText.getText().toString();
+                            sentReportToServer();
+                        } else {
+                            TastyToast.makeText(getApplicationContext(), "Please fill up all field !", TastyToast.LENGTH_LONG, TastyToast.WARNING);
+                        }
+
+
+                    }
+                });
+
+
+                dialogBuilder.setView(reportSubMitDialogView);
+                reportAlertDialog = dialogBuilder.create();
+                reportAlertDialog.show();
+
+            }
+            else
+                showReportLoginDialog();
+        }
+        else
+            showReportLoginDialog();
+
+
+    }
+
+
+    public void sentReportToServer() {
+
+        isReported=true;
+        int reportNum = Integer.parseInt(howManyReport);
+        reportNum = reportNum + 1;
+
+
+
+        String url = "http://www.farhandroid.com/CrimeLogger/Script/userPostReport.php";
+
+
+        final int finalReportNum = reportNum;
+        final int finalReportNum1 = reportNum;
+
+        hud.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+
+                        hud.dismiss();
+
+                        if (response.contains("howManyReport update Success") && response.contains("Data insertion Success in report table")) {
+
+                            TastyToast.makeText(getApplicationContext(), "Report Submitted successfully ", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+
+                        } else if (response.contains("You can't report twice against a post")) {
+
+                            showErrorInMainThread("You can't report twice against a post");
+                        } else if (response.contains("howManyReport update Success Failed")) {
+
+                            showErrorInMainThread("Problem "+response+" \n Please contact with devloper or Try again later");
+
+                        } else if (response.contains("Data insertion Failed in report table")) {
+                            showErrorInMainThread("Problem "+response+" \n Please contact with devloper or Try again later");
+                        }
+
+                        if (finalReportNum1 ==10)
+                        {
+                            deleteUserPostAfterReport();
+                        }
+
+                        ///Toast.makeText(context, "response : " + response, Toast.LENGTH_LONG).show();
+
+                    }
+                }
+                ,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(final VolleyError error) {
+
+                        Toast.makeText(context, "Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("userName",loggedInUserName);
+                params.put("postDateAndTime", postDateAndTime);
+                params.put("howManyReport", Integer.toString(finalReportNum));
+                params.put("reportInfo", reportInfo);
+
+                return params;
+
+            }
+        };
+
+
+        MySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    public void checkLoginSharedPrefference() {
+        prefs = getSharedPreferences("logginInformation", MODE_PRIVATE);
+        isLogged = prefs.getString("isLogged?", null);
+    }
+
+    public void showReportLoginDialog()
+    {
+        final AlertDialog reportLoginDialogView;
+
+        final View reportSubMitDialogView;
+
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        reportSubMitDialogView = inflater.inflate(R.layout.report_login_dialog, null);
+
+
+        final Button reportLoginBTN = reportSubMitDialogView.findViewById(R.id.reportLoginBTN);
+
+        dialogBuilder.setView(reportSubMitDialogView);
+        reportLoginDialogView = dialogBuilder.create();
+        reportLoginDialogView.show();
+
+
+        reportLoginBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportLoginDialogView.dismiss();
+                startLoginActivity();
+
+            }
+        });
+    }
+
+    public void startLoginActivity() {
+
+        Intent myIntent = new Intent(getApplicationContext(), UserLogin.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        this.startActivity(myIntent);
+        overridePendingTransition(R.anim.left_in, R.anim.left_out);
+        finish();
+    }
+
+    public void deleteUserPostAfterReport()
+    {
+        hud.dismiss();
+        deleteUserPostData();
+    }
+
 }

@@ -6,19 +6,26 @@ package tanvir.crimelogger_aust.MOdelClass;
 
 public class UserPostMC {
 
-    String userName, crimePlace , crimeDate , crimeTime , crimeType , crimeDesc , postDateAndTime , howManyImage;
+    String userName, crimePlace , crimeDate , crimeTime , crimeType , crimeDesc , postDateAndTime , howManyImage , howManyReport;
 
-    public UserPostMC(String userName, String crimePlace, String crimeDate, String crimeTime, String crimeType, String crimeDesc, String postDateAndTime, String howManyImage) {
+
+    public UserPostMC(String userName, String crimePlace, String crimeDate, String crimeTime, String crimeType, String crimeDesc, String postDateAndTime, String howManyImage, String howManyReport) {
         this.userName = userName;
         this.crimePlace = crimePlace;
         this.crimeDate = crimeDate;
         this.crimeTime = crimeTime;
         this.crimeType = crimeType;
         this.crimeDesc = crimeDesc;
+
         this.postDateAndTime = postDateAndTime;
         this.howManyImage = howManyImage;
+        this.howManyReport=howManyReport;
     }
 
+
+    public String getHowManyReport() {
+        return howManyReport;
+    }
 
     public String getUserName() {
         return userName;

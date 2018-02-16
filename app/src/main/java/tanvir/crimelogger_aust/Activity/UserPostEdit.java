@@ -1266,7 +1266,7 @@ public class UserPostEdit extends AppCompatActivity {
                                 //Toast.makeText(MainActivity.this, postInfo.getString("userName")+"\n"+postInfo.getString("crimePlace")+"\n"+postInfo.getString("crimeDate")+"\n"+postInfo.getString("crimeTime")+"\n"+postInfo.getString("crimeType")+"\n"+postInfo.getString("crimeDesc")+"\n"+postInfo.getString("postDateAndTime")+"\n"+postInfo.getString("howManyImage"), Toast.LENGTH_SHORT).show();
                                 ///Toast.makeText(MainActivity.this, "  JSONObject postInf : "+Integer.toString(userPostMCS.size()), Toast.LENGTH_SHORT).show();
 
-                                UserPostMC userPostMC = new UserPostMC(postInfo.getString("userName"), postInfo.getString("crimePlace"), postInfo.getString("crimeDate"), postInfo.getString("crimeTime"), postInfo.getString("crimeType"), postInfo.getString("crimeDesc"), postInfo.getString("postDateAndTime"), postInfo.getString("howManyImage"));
+                                UserPostMC userPostMC = new UserPostMC(postInfo.getString("userName"), postInfo.getString("crimePlace"), postInfo.getString("crimeDate"), postInfo.getString("crimeTime"), postInfo.getString("crimeType"), postInfo.getString("crimeDesc"), postInfo.getString("postDateAndTime"), postInfo.getString("howManyImage"),postInfo.getString("howManyReport"));
                                 userPostMCS.add(userPostMC);
 
                                 ///databaseHelper.insertDataInUserPostTable(userPostMC);

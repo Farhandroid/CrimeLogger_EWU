@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:orientation="horizontal"
                         android:layout_height="wrap_content">
@@ -125,20 +125,24 @@
 
                             </LinearLayout>
 
-                            <Button
-                                android:onClick="testPowerMenu"
-                                android:layout_gravity="right"
-                                android:layout_width="29dp"
-                                android:layout_height="29dp"
-                                android:background="@drawable/phone_color" />
 
                         </LinearLayout>
 
+                        <Button
+                            android:id="@+id/reportBTN"
+                            android:layout_alignParentRight="true"
+                            android:onClick="testPowerMenu"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/menu_color" />
 
 
 
 
-                    </LinearLayout>
+
+
+                    </RelativeLayout>
 
 
 
@@ -178,12 +182,6 @@
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
-                    <Button
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/button_shape_default_rounded_report"
-                        android:text="Report"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp" />
 
 
                 </LinearLayout>

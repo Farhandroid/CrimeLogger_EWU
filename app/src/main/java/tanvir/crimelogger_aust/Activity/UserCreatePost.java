@@ -181,21 +181,42 @@ public class UserCreatePost extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-                String hour = Integer.toString(hourOfDay);
+
                 String mint = Integer.toString(minute);
+                String format;
 
-                if (hourOfDay < 10)
-                    hour = "0" + hour;
+                if (hourOfDay == 0) {
 
-                if (minute < 10)
-                    mint = "0" + mint;
+                    hourOfDay += 12;
+
+                    format = "AM";
+                }
+                else if (hourOfDay == 12) {
+
+                    format = "PM";
+
+                }
+                else if (hourOfDay > 12) {
+
+                    hourOfDay -= 12;
+
+                    format = "PM";
+
+                }
+                else {
+
+                    format = "AM";
+                }
 
 
-                crimeTimeET.setText(hour + " : " + mint);
+                String hour = Integer.toString(hourOfDay);
+
+
+                crimeTimeET.setText(hour + " : " + mint+" "+format);
 
 
             }
-        }, hour, minute, true);
+        }, hour, minute, false);
 
 
         timePickerDialog.show();

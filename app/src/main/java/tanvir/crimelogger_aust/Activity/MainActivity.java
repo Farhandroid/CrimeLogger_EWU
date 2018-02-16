@@ -39,8 +39,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import tanvir.crimelogger_aust.HelperClass.AppController;
@@ -305,8 +308,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void RetriveDataFromServer() {
         hud.show();
-        new Thread(new Runnable() {
-            public void run() {
+        {
 
 
                 String url = "http://www.farhandroid.com/CrimeLogger/Script/retriveUserPostFromDatabase.php";
@@ -341,7 +343,12 @@ public class MainActivity extends AppCompatActivity {
                                 //Toast.makeText(MainActivity.this, postInfo.getString("userName")+"\n"+postInfo.getString("crimePlace")+"\n"+postInfo.getString("crimeDate")+"\n"+postInfo.getString("crimeTime")+"\n"+postInfo.getString("crimeType")+"\n"+postInfo.getString("crimeDesc")+"\n"+postInfo.getString("postDateAndTime")+"\n"+postInfo.getString("howManyImage"), Toast.LENGTH_SHORT).show();
                                 ///Toast.makeText(MainActivity.this, "  JSONObject postInf : "+Integer.toString(userPostMCS.size()), Toast.LENGTH_SHORT).show();
 
-                                UserPostMC userPostMC = new UserPostMC(postInfo.getString("userName"), postInfo.getString("crimePlace"), postInfo.getString("crimeDate"), postInfo.getString("crimeTime"), postInfo.getString("crimeType"), postInfo.getString("crimeDesc"), postInfo.getString("postDateAndTime"), postInfo.getString("howManyImage"));
+                                //String date = postInfo.getString("crimeTime");
+                                ///date=convert24HoursTimeFormatTo12hoursTimeFormat(date);
+
+                                ///Toast.makeText(MainActivity.this, "Date : "+date, Toast.LENGTH_SHORT).show();
+
+                                UserPostMC userPostMC = new UserPostMC(postInfo.getString("userName"), postInfo.getString("crimePlace"), postInfo.getString("crimeDate"), postInfo.getString("crimeTime"), postInfo.getString("crimeType"), postInfo.getString("crimeDesc"), postInfo.getString("postDateAndTime"), postInfo.getString("howManyImage"),postInfo.getString("howManyReport"));
                                 userPostMCS.add(userPostMC);
 
 
@@ -397,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 );
 
-                jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(90000,
+                jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(40000,
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -406,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        }).start();
+
     }
 
     private boolean isOnline() {
@@ -572,7 +579,7 @@ public class MainActivity extends AppCompatActivity {
                     RetriveDataFromServer();
                     clearPostDataSharedPrefference();
 
-                } else if (cameFromWhichActivity.contains("UserCreatePost") || cameFromWhichActivity.contains("UserPostEdit")) {
+                } else if (cameFromWhichActivity.contains("UserCreatePost") || cameFromWhichActivity.contains("UserPostEdit")|| cameFromWhichActivity.contains("PostViewActivityWithReport")) {
                     RetriveDataFromServer();
                 } else {
                     retrivesharedpreference();
@@ -610,6 +617,28 @@ public class MainActivity extends AppCompatActivity {
         editor.clear();
         editor.commit();
     }
+
+    /*public String convert24HoursTimeFormatTo12hoursTimeFormat(String time) {
+
+        Toast.makeText(this, "time "+time, Toast.LENGTH_SHORT).show();
+        int lastIndx = time.lastIndexOf(':');
+        time=time.substring(0,lastIndx);
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("h:mm");
+        try {
+            final Date dateObj = sdf.parse(time);
+            return dateObj.toString();
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "date parse exception", Toast.LENGTH_SHORT).show();
+        }
+
+        return "";
+    }*/
+
+
 
 
 
