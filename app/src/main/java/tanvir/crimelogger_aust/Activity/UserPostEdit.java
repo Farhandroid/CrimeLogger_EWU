@@ -1324,7 +1324,7 @@ public class UserPostEdit extends AppCompatActivity {
                 }
                 );
 
-                jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
+                jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(40000,
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 

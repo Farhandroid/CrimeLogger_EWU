@@ -39,11 +39,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import tanvir.crimelogger_aust.HelperClass.AppController;
@@ -81,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-
-
     KProgressHUD hud;
 
     ArrayList<UserPostMC> userPostMCS;
@@ -100,7 +95,39 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
+        boolean enter = true;
 
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                if (key.equals("push_data") || key.equals("push_image_url")) {
+
+                    enter=false;
+
+                    Intent myIntent = new Intent(getApplicationContext(), PushNotification.class);
+                    myIntent.putExtra("cameFromWhichActivity", "push_mainActivity");
+                    myIntent.putExtra("push_data", getIntent().getExtras().getString("push_data"));
+                    myIntent.putExtra("push_image_url", getIntent().getExtras().getString("push_image_url"));
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    this.startActivity(myIntent);
+                    finish();
+
+                }
+            }
+
+            if (enter)
+            {
+                initializeMainActivity();
+            }
+
+        } else {
+            initializeMainActivity();
+
+        }
+
+
+    }
+
+    public void initializeMainActivity() {
         userPostMCS = new ArrayList<>();
 
         ///linearLayout = findViewById(R.id.no_internet);
@@ -115,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
                 .setCancellable(false);
 
 
-
-
         toolbar = findViewById(R.id.toolbarlayoutinmainactivity);
         setSupportActionBar(toolbar);
 
@@ -126,11 +151,7 @@ public class MainActivity extends AppCompatActivity {
         checkLoginSharedPrefference();
 
 
-
-
-
         checkOnLineOrNOt();
-
 
     }
 
@@ -140,17 +161,13 @@ public class MainActivity extends AppCompatActivity {
         floatingActionMenu.close(true);
 
 
-
-        if (isLogged!=null)
-        {
+        if (isLogged != null) {
             if (isLogged.contains("yes")) {
                 startUserProfileActivity();
             } else
                 startLoginActivity();
-        }
-        else
+        } else
             startLoginActivity();
-
 
 
     }
@@ -186,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button anonymousBTN = imageDeleteDialogView.findViewById(R.id.anonymousBTN);
         Button loginBTN = imageDeleteDialogView.findViewById(R.id.loginBTN);
-
 
 
         anonymousBTN.setOnClickListener(new View.OnClickListener() {
@@ -273,13 +289,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSearchViewClosed() {
 
-                if (isOnline())
-                {
+                if (isOnline()) {
                     floatingActionMenu.setVisibility(View.VISIBLE);
                     updateRecyclerView(userPostMCS);
-                }
-                else
-                {
+                } else {
 
                 }
 
@@ -308,111 +321,102 @@ public class MainActivity extends AppCompatActivity {
 
     public void RetriveDataFromServer() {
         hud.show();
-        {
 
 
-                String url = "http://www.farhandroid.com/CrimeLogger/Script/retriveUserPostFromDatabase.php";
+        String url = "http://www.farhandroid.com/CrimeLogger/Script/retriveUserPostFromDatabase.php";
 
 
-
-                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                        Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
 
 
-                        if (response.length() == 0) {
+                if (response.length() == 0) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            hud.dismiss();
+                        }
+                    });
+
+                    SharedPreferences settings = MainActivity.this.getSharedPreferences("PostData", Context.MODE_PRIVATE);
+                    settings.edit().clear().commit();
+                }
+
+
+                for (int i = 0; i < response.length(); i++) {
+
+                    try {
+                        JSONObject postInfo = response.getJSONObject(i);
+
+
+                        //Toast.makeText(MainActivity.this, postInfo.getString("userName")+"\n"+postInfo.getString("crimePlace")+"\n"+postInfo.getString("crimeDate")+"\n"+postInfo.getString("crimeTime")+"\n"+postInfo.getString("crimeType")+"\n"+postInfo.getString("crimeDesc")+"\n"+postInfo.getString("postDateAndTime")+"\n"+postInfo.getString("howManyImage"), Toast.LENGTH_SHORT).show();
+                        ///Toast.makeText(MainActivity.this, "  JSONObject postInf : "+Integer.toString(userPostMCS.size()), Toast.LENGTH_SHORT).show();
+
+                        //String date = postInfo.getString("crimeTime");
+                        ///date=convert24HoursTimeFormatTo12hoursTimeFormat(date);
+
+                        ///Toast.makeText(MainActivity.this, "Date : "+date, Toast.LENGTH_SHORT).show();
+
+                        UserPostMC userPostMC = new UserPostMC(postInfo.getString("userName"), postInfo.getString("crimePlace"), postInfo.getString("crimeDate"), postInfo.getString("crimeTime"), postInfo.getString("crimeType"), postInfo.getString("crimeDesc"), postInfo.getString("postDateAndTime"), postInfo.getString("howManyImage"), postInfo.getString("howManyReport"));
+                        userPostMCS.add(userPostMC);
+
+
+                        ///Toast.makeText(MainActivity.this, "i = "+Integer.toString(i)+"\n"+"User post "+Integer.toString(userPostMCS.size()), Toast.LENGTH_SHORT).show();
+
+                        if (i + 1 == response.length()) {
                             MainActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    hud.dismiss();
+
+                                    if (hud != null)
+                                        hud.dismiss();
                                 }
                             });
+                            setSharedPrefference();
 
-                            SharedPreferences settings = MainActivity.this.getSharedPreferences("PostData", Context.MODE_PRIVATE);
-                            settings.edit().clear().commit();
-                        }
-
-
-                        for (int i = 0; i < response.length(); i++) {
-
-                            try {
-                                JSONObject postInfo = response.getJSONObject(i);
-
-
-                                //Toast.makeText(MainActivity.this, postInfo.getString("userName")+"\n"+postInfo.getString("crimePlace")+"\n"+postInfo.getString("crimeDate")+"\n"+postInfo.getString("crimeTime")+"\n"+postInfo.getString("crimeType")+"\n"+postInfo.getString("crimeDesc")+"\n"+postInfo.getString("postDateAndTime")+"\n"+postInfo.getString("howManyImage"), Toast.LENGTH_SHORT).show();
-                                ///Toast.makeText(MainActivity.this, "  JSONObject postInf : "+Integer.toString(userPostMCS.size()), Toast.LENGTH_SHORT).show();
-
-                                //String date = postInfo.getString("crimeTime");
-                                ///date=convert24HoursTimeFormatTo12hoursTimeFormat(date);
-
-                                ///Toast.makeText(MainActivity.this, "Date : "+date, Toast.LENGTH_SHORT).show();
-
-                                UserPostMC userPostMC = new UserPostMC(postInfo.getString("userName"), postInfo.getString("crimePlace"), postInfo.getString("crimeDate"), postInfo.getString("crimeTime"), postInfo.getString("crimeType"), postInfo.getString("crimeDesc"), postInfo.getString("postDateAndTime"), postInfo.getString("howManyImage"),postInfo.getString("howManyReport"));
-                                userPostMCS.add(userPostMC);
-
-
-
-                                ///Toast.makeText(MainActivity.this, "i = "+Integer.toString(i)+"\n"+"User post "+Integer.toString(userPostMCS.size()), Toast.LENGTH_SHORT).show();
-
-                                if (i + 1 == response.length()) {
-                                    MainActivity.this.runOnUiThread(new Runnable() {
-                                        public void run() {
-
-                                            if (hud != null)
-                                                hud.dismiss();
-                                        }
-                                    });
-                                    setSharedPrefference();
-
-                                    updateRecyclerView(userPostMCS);
-                                    adapter.notifyDataSetChanged();
-
-                                }
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                hud.dismiss();
-
-                                MainActivity.this.runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(MainActivity.this, "Json Exception", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-
-                            }
+                            updateRecyclerView(userPostMCS);
+                            adapter.notifyDataSetChanged();
 
                         }
 
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(final VolleyError error) {
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                         hud.dismiss();
 
-                        MainActivity.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(MainActivity.this, "Volley Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+
+                        Toast.makeText(MainActivity.this, "Json Exception " + e.toString(), Toast.LENGTH_SHORT).show();
 
 
                     }
+
                 }
-                );
-
-                jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(40000,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-
-                AppController.getInstance().addToRequestQueue(jsonArrayRequest);
 
 
             }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(final VolleyError error) {
+                hud.dismiss();
+
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "Volley Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        }
+        );
+
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(40000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        AppController.getInstance().addToRequestQueue(jsonArrayRequest);
+
 
     }
 
@@ -505,9 +509,7 @@ public class MainActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.left_in, R.anim.left_out);
                 finish();
             }
-        }
-        else
-        {
+        } else {
             Intent myIntent = new Intent(getApplicationContext(), UserLogin.class);
             myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             myIntent.putExtra("cameFromWhichActivity", "MainActivity");
@@ -544,7 +546,9 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
 
         super.onDestroy();
-        hud.dismiss();
+
+        if (hud!=null)
+            hud.dismiss();
 
     }
 
@@ -579,7 +583,7 @@ public class MainActivity extends AppCompatActivity {
                     RetriveDataFromServer();
                     clearPostDataSharedPrefference();
 
-                } else if (cameFromWhichActivity.contains("UserCreatePost") || cameFromWhichActivity.contains("UserPostEdit")|| cameFromWhichActivity.contains("PostViewActivityWithReport")) {
+                } else if (cameFromWhichActivity.contains("UserCreatePost") || cameFromWhichActivity.contains("UserPostEdit") || cameFromWhichActivity.contains("PostViewActivityWithReport")) {
                     RetriveDataFromServer();
                 } else {
                     retrivesharedpreference();
@@ -591,13 +595,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-
-
-
         } else {
             floatingActionMenu.setVisibility(View.GONE);
 
-           
+
             recyclerView.setVisibility(View.GONE);
             noInternetImageView.setVisibility(View.VISIBLE);
             Glide.with(MainActivity.this).load(R.drawable.no_internet_image).into(noInternetImageView);
@@ -637,10 +638,6 @@ public class MainActivity extends AppCompatActivity {
 
         return "";
     }*/
-
-
-
-
 
 
 }

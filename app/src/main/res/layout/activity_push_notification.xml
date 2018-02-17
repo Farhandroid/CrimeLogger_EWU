@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activityBackground"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context="tanvir.crimelogger_aust.Activity.PushNotification"
+    >
+
+    <android.support.design.widget.CoordinatorLayout
+        tools:context="tanvir.crimelogger_aust.Activity.PushNotification"
+        android:id="@+id/coorLoyt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/activityBackground"
+            android:orientation="vertical"
+            android:padding="5dp"
+            tools:context="tanvir.crimelogger_aust.Activity.PushNotification">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/imageCardViewInPushNotification"
+                android:layout_width="match_parent"
+                android:layout_height="330dp"
+                app:cardCornerRadius="5dp"
+                app:contentPadding="5dp">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <android.support.v4.view.ViewPager
+
+                        android:id="@+id/imageViewPagerInPostView"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
+
+                    <com.viewpagerindicator.CirclePageIndicator
+                        android:id="@+id/indicator"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="bottom"
+                        android:padding="10dip"
+                        app:centered="true"
+                        app:fillColor="#FFFFFF"
+                        app:pageColor="@color/colorPrimaryDark"
+                        app:snap="false" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/dataCardView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp"
+                app:contentPadding="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_centerHorizontal="true"
+                            android:text="Breaking News"
+                            android:textColor="@color/Red"
+                            android:textSize="25sp"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+
+
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/breakingNewsTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+</ScrollView>
+
+

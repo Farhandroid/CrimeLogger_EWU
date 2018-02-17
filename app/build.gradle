@@ -47,4 +47,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.android.support:design:26.1.0'
     compile 'com.github.skydoves:powermenu:2.0.1'
+    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
 }
+apply plugin: 'com.google.gms.google-services'
