@@ -115,36 +115,21 @@ public class PushNotification extends AppCompatActivity {
     }
 
 
-    public void setPostData() {
-
-        int position = 0;
-
-
-
-        if (userPostMCS.get(position).getHowManyImage().equals("0") == false) {
-
-            imageCardViewInPushNotification.setVisibility(View.VISIBLE);
-            retrivePostImageDataFromServer();
-        } else {
-
-            imageCardViewInPushNotification.setVisibility(View.GONE);
-        }
-
-
-    }
 
 
     public void retrivePostImageDataFromServer() {
 
         hud.show();
 
-        String url = "http://www.farhandroid.com/CrimeLogger/Script/retrivePostImageData.php";
+        String url = "http://www.farhandroid.com/CrimeLogger/Script/retrivePushNotificationImageData.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(final String response) {
                         hud.dismiss();
+
+                        Toast.makeText(context, "respons : "+response, Toast.LENGTH_LONG).show();
 
 
                         if (response.contains("image data not found")) {
@@ -220,7 +205,7 @@ public class PushNotification extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("push_data", push_data);
+                params.put("push_notification_pk",push_data);
 
                 return params;
 
@@ -290,11 +275,12 @@ public class PushNotification extends AppCompatActivity {
 
                             if (howManyImage.equals("0") == false) {
 
+                                imageCardViewInPushNotification.setVisibility(View.VISIBLE);
                                 retrivePostImageDataFromServer();
                             }
                             else
                             {
-
+                                imageCardViewInPushNotification.setVisibility(View.GONE);
                             }
 
                         } catch (JSONException e) {

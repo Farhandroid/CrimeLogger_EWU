@@ -64,6 +64,7 @@ public class UserLogin extends AppCompatActivity {
         checkLogINSharedPrefference();
         initializeKHUDprogress();
 
+
         cameFromWhichActivity = getIntent().getStringExtra("cameFromWhichActivity");
         userType = getIntent().getStringExtra("userType");
 

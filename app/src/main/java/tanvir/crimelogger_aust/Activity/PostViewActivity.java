@@ -624,6 +624,7 @@ public class PostViewActivity extends AppCompatActivity {
         if (successInUserPostDataDelete == true && successInUserPostImageDelete == true) {
 
             if (isReported == false) {
+
                 TastyToast.makeText(getApplicationContext(), "Post Deleted Successfuly", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 removeDataFromSharedPrefference();
                 startUserProfileActivity("show");
@@ -907,7 +908,28 @@ public class PostViewActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(final VolleyError error) {
 
-                        Toast.makeText(context, "Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                        hud.dismiss();
+
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                            showErrorInMainThread("Time out or no connection error \n Please check connection");
+
+                        } else if (error instanceof AuthFailureError) {
+
+                            showErrorInMainThread("Authentication failure error \n Please contact with devloper or try later");
+
+                        } else if (error instanceof ServerError) {
+
+                            showErrorInMainThread("Server error\n Please contact with devloper or Try later");
+
+                        } else if (error instanceof NetworkError) {
+                            showErrorInMainThread("Network error\n Please contact with devloper or Try later");
+
+                        } else if (error instanceof ParseError) {
+
+                            showErrorInMainThread("Parse error\n Please contact with devloper or Try later");
+
+                        }
 
 
                     }

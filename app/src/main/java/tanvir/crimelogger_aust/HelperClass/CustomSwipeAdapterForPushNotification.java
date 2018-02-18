@@ -113,7 +113,7 @@ public class CustomSwipeAdapterForPushNotification extends PagerAdapter {
 
         builder.register();
 
-        String url = "http://www.farhandroid.com/CrimeLogger/Script/UserPostPic/" + images.get(position) + ".jpg";
+        String url = "http://www.farhandroid.com/CrimeLogger/Script/pushNotificationImage/" + images.get(position) + ".jpg";
 
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.error_image);
