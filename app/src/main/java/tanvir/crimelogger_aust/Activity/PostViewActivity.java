@@ -83,7 +83,7 @@ public class PostViewActivity extends AppCompatActivity {
     private String howManyReport = "";
     private String postDateAndTime;
     private String userName;
-    private String loggedInUserName="";
+    private String loggedInUserName = "";
 
     CircleImageView userImageInPostView;
     private Button reportButton;
@@ -129,14 +129,10 @@ public class PostViewActivity extends AppCompatActivity {
         postEditBTNDataCardView = findViewById(R.id.postEditBTNDataCardView);
         postEditBTNImageCardView = findViewById(R.id.postEditBTNImageCardView);
         userImageInPostView = findViewById(R.id.userImageInPostView);
-        reportButton=findViewById(R.id.reportBTN);
-
-
-
+        reportButton = findViewById(R.id.reportBTN);
 
 
         postDateAndTime = getIntent().getStringExtra("postDateAndTime");
-
 
 
         cameFromWhichActivity = getIntent().getStringExtra("cameFromWhichActivity");
@@ -148,7 +144,6 @@ public class PostViewActivity extends AppCompatActivity {
 
         } else
             Toast.makeText(this, "postDateAndTime not found in Postview activity", Toast.LENGTH_SHORT).show();
-
 
 
         initializeKHUDprogress();
@@ -246,104 +241,99 @@ public class PostViewActivity extends AppCompatActivity {
         hud.show();
 
 
-                String url = "http://www.farhandroid.com/CrimeLogger/Script/retrivePostImageData.php";
+        String url = "http://www.farhandroid.com/CrimeLogger/Script/retrivePostImageData.php";
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(final String response) {
-                                hud.dismiss();
-
-
-                                if (response.contains("image data not found")) {
-                                    showErrorInMainThread("Problem in image fetch \n please contact with devloper or try later  ");
-                                } else {
-
-                                    try {
-                                        JSONArray jsonArray = new JSONArray(response);
-
-                                        for (int i = 0; i < jsonArray.length(); i++) {
-                                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                                            if (jsonObject.has("imageName")) {
-                                                imageName.add(jsonObject.getString("imageName"));
-                                            }
-                                        }
-
-                                        PostViewActivity.this.runOnUiThread(new Runnable() {
-                                            public void run() {
-                                                initialView();
-
-                                            }
-                                        });
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+                        hud.dismiss();
 
 
+                        if (response.contains("image data not found")) {
+                            showErrorInMainThread("Problem in image fetch \n please contact with devloper or try later  ");
+                        } else {
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        hud.dismiss();
-                                        showErrorInMainThread("Json Exception \n please contact with devloper or try later  " + e.toString());
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                    if (jsonObject.has("imageName")) {
+                                        imageName.add(jsonObject.getString("imageName"));
+                                    }
+                                }
+
+                                PostViewActivity.this.runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        initialView();
 
                                     }
+                                });
 
-                                }
 
-
-                            }
-                        }
-                        ,
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(final VolleyError error) {
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                                 hud.dismiss();
-
-                                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-
-                                    showErrorInMainThread("Time out or no connection error \n Please check connection");
-
-                                } else if (error instanceof AuthFailureError) {
-
-                                    showErrorInMainThread("Authentication failure error \n Please contact with devloper or try later");
-
-                                } else if (error instanceof ServerError) {
-
-                                    showErrorInMainThread("Server error\n Please contact with devloper or Try later");
-
-                                } else if (error instanceof NetworkError) {
-                                    showErrorInMainThread("Network error\n Please contact with devloper or Try later");
-
-                                } else if (error instanceof ParseError) {
-
-                                    showErrorInMainThread("Parse error\n Please contact with devloper or Try later");
-
-                                }
-
+                                showErrorInMainThread("Json Exception \n please contact with devloper or try later  " + e.toString());
 
                             }
+
                         }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams() {
 
-                        Map<String, String> params = new HashMap<>();
-
-                        params.put("postDateAndTime", postDateAndTime);
-
-                        return params;
 
                     }
-                };
+                }
+                ,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(final VolleyError error) {
+                        hud.dismiss();
 
-                stringRequest.setRetryPolicy(new DefaultRetryPolicy(40000,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                            showErrorInMainThread("Time out or no connection error \n Please check connection");
+
+                        } else if (error instanceof AuthFailureError) {
+
+                            showErrorInMainThread("Authentication failure error \n Please contact with devloper or try later");
+
+                        } else if (error instanceof ServerError) {
+
+                            showErrorInMainThread("Server error\n Please contact with devloper or Try later");
+
+                        } else if (error instanceof NetworkError) {
+                            showErrorInMainThread("Network error\n Please contact with devloper or Try later");
+
+                        } else if (error instanceof ParseError) {
+
+                            showErrorInMainThread("Parse error\n Please contact with devloper or Try later");
+
+                        }
 
 
-                MySingleton.getInstance(PostViewActivity.this).addToRequestQueue(stringRequest);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("postDateAndTime", postDateAndTime);
+
+                return params;
+
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(40000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
-
-
+        MySingleton.getInstance(PostViewActivity.this).addToRequestQueue(stringRequest);
 
 
     }
@@ -429,9 +419,7 @@ public class PostViewActivity extends AppCompatActivity {
                 hud.show();
 
 
-
-                        deleteUserPostData();
-
+                deleteUserPostData();
 
 
             }
@@ -441,7 +429,7 @@ public class PostViewActivity extends AppCompatActivity {
 
     public void deleteUserPostData() {
 
-        if (isReported==false)
+        if (isReported == false)
             alertDialog.dismiss();
         String url = "http://www.farhandroid.com/CrimeLogger/Script/deleteUserPost.php";
 
@@ -545,28 +533,23 @@ public class PostViewActivity extends AppCompatActivity {
                         public void onResponse(final String response) {
 
 
+                            if (response.contains("ImageName delete Success") && response.contains("image delete success")) {
+                                successInUserPostImageDelete = true;
 
+                                if (position + 1 == imageName.size()) {
+                                    showSuccessMsg();
+                                }
 
-                                    if (response.contains("ImageName delete Success") && response.contains("image delete success")) {
-                                        successInUserPostImageDelete = true;
+                            } else if (response.contains("ImageName delete  Fail")) {
 
-                                        if (position + 1 == imageName.size()) {
-                                            showSuccessMsg();
-                                        }
+                                showErrorInMainThread("Problem in image table Database \n Please contact with devloper or Try again later");
+                            } else if (response.contains("image delete fail")) {
 
-                                    } else if (response.contains("ImageName delete  Fail")) {
+                                showErrorInMainThread("Problem in image image delete \n Please contact with devloper or Try again later");
 
-                                        showErrorInMainThread("Problem in image table Database \n Please contact with devloper or Try again later");
-                                    } else if (response.contains("image delete fail")) {
-
-                                        showErrorInMainThread("Problem in image image delete \n Please contact with devloper or Try again later");
-
-                                    } else if (response.contains("deleteImageName empty")) {
-                                        showErrorInMainThread("Problem in send imagename to server \n Please contact with devloper or Try again later");
-                                    }
-
-
-
+                            } else if (response.contains("deleteImageName empty")) {
+                                showErrorInMainThread("Problem in send imagename to server \n Please contact with devloper or Try again later");
+                            }
 
 
                         }
@@ -640,18 +623,13 @@ public class PostViewActivity extends AppCompatActivity {
 
         if (successInUserPostDataDelete == true && successInUserPostImageDelete == true) {
 
-            if (isReported==false)
-            {
+            if (isReported == false) {
                 TastyToast.makeText(getApplicationContext(), "Post Deleted Successfuly", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 removeDataFromSharedPrefference();
                 startUserProfileActivity("show");
-            }
-            else
-            {
+            } else {
 
             }
-
-
 
 
         } else if (successInUserPostDataDelete == false) {
@@ -690,7 +668,7 @@ public class PostViewActivity extends AppCompatActivity {
 
     public void visibleOrInvisiblePostEditButton(boolean imageContain) {
         if (cameFromWhichActivity.length() > 0) {
-            if (cameFromWhichActivity.equals("MainActivity") || cameFromWhichActivity.equals("don't show edit button")) {
+            if (cameFromWhichActivity.equals("MainActivity") || cameFromWhichActivity.equals("don't show edit button") || cameFromWhichActivity.equals("UserLogin")) {
                 postEditBTNImageCardView.setVisibility(View.GONE);
                 postEditBTNDataCardView.setVisibility(View.GONE);
                 reportButton.setVisibility(View.VISIBLE);
@@ -869,11 +847,9 @@ public class PostViewActivity extends AppCompatActivity {
                 reportAlertDialog = dialogBuilder.create();
                 reportAlertDialog.show();
 
-            }
-            else
+            } else
                 showReportLoginDialog();
-        }
-        else
+        } else
             showReportLoginDialog();
 
 
@@ -882,10 +858,9 @@ public class PostViewActivity extends AppCompatActivity {
 
     public void sentReportToServer() {
 
-        isReported=true;
+        isReported = true;
         int reportNum = Integer.parseInt(howManyReport);
         reportNum = reportNum + 1;
-
 
 
         String url = "http://www.farhandroid.com/CrimeLogger/Script/userPostReport.php";
@@ -903,6 +878,7 @@ public class PostViewActivity extends AppCompatActivity {
 
                         hud.dismiss();
 
+
                         if (response.contains("howManyReport update Success") && response.contains("Data insertion Success in report table")) {
 
                             TastyToast.makeText(getApplicationContext(), "Report Submitted successfully ", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
@@ -912,14 +888,13 @@ public class PostViewActivity extends AppCompatActivity {
                             showErrorInMainThread("You can't report twice against a post");
                         } else if (response.contains("howManyReport update Success Failed")) {
 
-                            showErrorInMainThread("Problem "+response+" \n Please contact with devloper or Try again later");
+                            showErrorInMainThread("Problem " + response + " \n Please contact with devloper or Try again later");
 
                         } else if (response.contains("Data insertion Failed in report table")) {
-                            showErrorInMainThread("Problem "+response+" \n Please contact with devloper or Try again later");
+                            showErrorInMainThread("Problem " + response + " \n Please contact with devloper or Try again later");
                         }
 
-                        if (finalReportNum1 ==10)
-                        {
+                        if (finalReportNum1 == 10 && !response.contains("You can't report twice against a post")) {
                             deleteUserPostAfterReport();
                         }
 
@@ -943,7 +918,7 @@ public class PostViewActivity extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("userName",loggedInUserName);
+                params.put("userName", loggedInUserName);
                 params.put("postDateAndTime", postDateAndTime);
                 params.put("howManyReport", Integer.toString(finalReportNum));
                 params.put("reportInfo", reportInfo);
@@ -962,8 +937,7 @@ public class PostViewActivity extends AppCompatActivity {
         isLogged = prefs.getString("isLogged?", null);
     }
 
-    public void showReportLoginDialog()
-    {
+    public void showReportLoginDialog() {
         final AlertDialog reportLoginDialogView;
 
         final View reportSubMitDialogView;
@@ -996,14 +970,16 @@ public class PostViewActivity extends AppCompatActivity {
     public void startLoginActivity() {
 
         Intent myIntent = new Intent(getApplicationContext(), UserLogin.class);
+        myIntent.putExtra("cameFromWhichActivity", "UserPostView");
+        myIntent.putExtra("userType", "user");
+        myIntent.putExtra("postDateAndTime", postDateAndTime);
         myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         this.startActivity(myIntent);
         overridePendingTransition(R.anim.left_in, R.anim.left_out);
         finish();
     }
 
-    public void deleteUserPostAfterReport()
-    {
+    public void deleteUserPostAfterReport() {
         hud.dismiss();
         deleteUserPostData();
     }

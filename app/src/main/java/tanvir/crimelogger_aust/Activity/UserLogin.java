@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -138,7 +139,14 @@ public class UserLogin extends AppCompatActivity {
 
                                         setLoggedInformationSharedPrefference();
 
+                                       /// Toast.makeText(UserLogin.this, "came : "+cameFromWhichActivity, Toast.LENGTH_SHORT).show();
+                                        ///Toast.makeText(UserLogin.this, "userType : "+userType, Toast.LENGTH_SHORT).show();
+
                                         if (cameFromWhichActivity != null && userType != null) {
+
+                                            ///Toast.makeText(UserLogin.this, "Enter", Toast.LENGTH_SHORT).show();
+
+
                                             if (cameFromWhichActivity.contains("MainActivity") && userType.contains("user")) {
                                                 Intent myIntent = new Intent(getApplicationContext(), UserCreatePost.class);
 
@@ -148,7 +156,29 @@ public class UserLogin extends AppCompatActivity {
                                                 overridePendingTransition(R.anim.left_in, R.anim.left_out);
                                                 finish();
                                             }
-                                        } else {
+                                            else if (cameFromWhichActivity.contains("UserPostView"))
+                                            {
+                                                String postDateAndTime  = getIntent().getStringExtra("postDateAndTime");
+
+                                                if (postDateAndTime!=null)
+                                                {
+                                                    Intent myIntent = new Intent(getApplicationContext(), PostViewActivity.class);
+                                                    myIntent.putExtra("cameFromWhichActivity","UserLogin");
+                                                    myIntent.putExtra("postDateAndTime", postDateAndTime);
+                                                    UserLogin.this.startActivity(myIntent);
+                                                    overridePendingTransition(R.anim.left_in, R.anim.left_out);
+                                                    finish();
+                                                }
+                                                else
+                                                    Toast.makeText(UserLogin.this, "postDateAnd time not found", Toast.LENGTH_SHORT).show();
+
+
+
+                                            }
+                                        }
+                                        else {
+
+                                            Toast.makeText(UserLogin.this, "Enter else", Toast.LENGTH_SHORT).show();
                                             startUserProfileActivity();
                                         }
 
