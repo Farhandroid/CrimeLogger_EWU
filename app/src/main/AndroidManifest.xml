@@ -54,7 +54,9 @@
         <activity
             android:name=".Activity.ShowStatistics"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.PushNotification"></activity>
+        <activity
+            android:name=".Activity.PushNotification"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

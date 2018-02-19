@@ -81,7 +81,7 @@
         fab:menu_labels_maxLines="-1"
         fab:menu_labels_position="left"
         fab:menu_openDirection="up"
-        fab:menu_backgroundColor="#CCFFFFFF"
+
 
         >
         <com.github.clans.fab.FloatingActionButton
