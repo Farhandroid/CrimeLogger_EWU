@@ -80,6 +80,8 @@ public class PostViewActivity extends AppCompatActivity {
     private String reportInfo = "";
 
     ArrayList<UserPostMC> userPostMCS;
+    UserPostMC userPostMC;
+
     private String howManyReport = "";
     private String postDateAndTime;
     private String userName;
@@ -193,6 +195,9 @@ public class PostViewActivity extends AppCompatActivity {
         for (int i = 0; i < userPostMCS.size(); i++) {
             if (userPostMCS.get(i).getPostDateAndTime().equals(postDateAndTime)) {
                 position = i;
+
+                userPostMC = userPostMCS.get(i);
+
                 positionIfNeedToBeDeleted = i;
                 crimeDateTV.setText(userPostMCS.get(i).getCrimeDate());
                 crimeTimeTV.setText(userPostMCS.get(i).getCrimeTime());
@@ -630,6 +635,11 @@ public class PostViewActivity extends AppCompatActivity {
                 startUserProfileActivity("show");
             } else {
 
+                if (!userName.equals("Anonymous")) {
+                    sendPostDeletedEmailToUserAfterReport();
+                }
+
+
             }
 
 
@@ -1005,5 +1015,84 @@ public class PostViewActivity extends AppCompatActivity {
         hud.dismiss();
         deleteUserPostData();
     }
+
+    public void sendPostDeletedEmailToUserAfterReport() {
+
+
+
+        hud.show();
+
+        if (userPostMC == null) {
+            Toast.makeText(context, "UserPost not found", Toast.LENGTH_SHORT).show();
+        }
+
+        String url = "http://www.farhandroid.com/CrimeLogger/Script/sendReportMail.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+
+                        hud.dismiss();
+
+
+                        if (response.contains("mail sent fail") && response.contains("Email not found")) {
+
+                            TastyToast.makeText(getApplicationContext(), "Problem in sending mail in UserPostReport \n Please contact with devloper or Try again later", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+
+                        }
+
+                    }
+                }
+                ,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(final VolleyError error) {
+
+                        hud.dismiss();
+
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                            showErrorInMainThread("Time out or no connection error \n Please check connection");
+
+                        } else if (error instanceof AuthFailureError) {
+
+                            showErrorInMainThread("Authentication failure error \n Please contact with devloper or try later");
+
+                        } else if (error instanceof ServerError) {
+
+                            showErrorInMainThread("Server error\n Please contact with devloper or Try later");
+
+                        } else if (error instanceof NetworkError) {
+                            showErrorInMainThread("Network error\n Please contact with devloper or Try later");
+
+                        } else if (error instanceof ParseError) {
+
+                            showErrorInMainThread("Parse error\n Please contact with devloper or Try later");
+
+                        }
+
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("userName", userName);
+                params.put("crimeDesc", userPostMC.getCrimeDesc());
+
+
+                return params;
+
+            }
+        };
+
+
+        MySingleton.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
 
 }
