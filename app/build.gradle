@@ -49,5 +49,6 @@ dependencies {
     compile 'com.github.skydoves:powermenu:2.0.1'
     compile 'com.google.firebase:firebase-core:11.8.0'
     compile 'com.google.firebase:firebase-messaging:11.8.0'
+    compile 'com.github.twinkle942910:monthyearpicker:0.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
