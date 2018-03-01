@@ -1,169 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/frameLayout"
     android:background="@color/activityBackground"
+    android:orientation="vertical"
     tools:context="tanvir.crimelogger_aust.Activity.MainActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <ImageView
-            android:visibility="gone"
-            android:scaleType="centerCrop"
-            android:id="@+id/no_internet_image"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="65dp"
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-        </android.support.v7.widget.RecyclerView>
-
-
-    </RelativeLayout>
-
-
-
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu"
-        android:fontFamily="casual"
-        android:layout_gravity="bottom|end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        fab:menu_fab_size="normal"
-        fab:menu_showShadow="true"
-        fab:menu_shadowColor="@color/colorPrimaryDark"
-        fab:menu_shadowRadius="4dp"
-        fab:menu_shadowXOffset="1dp"
-        fab:menu_shadowYOffset="3dp"
-        fab:menu_colorNormal="@color/colorPrimaryDark"
-        fab:menu_colorPressed="@color/colorPrimaryDark"
-        fab:menu_colorRipple="@color/colorPrimaryDark"
-        fab:menu_animationDelayPerItem="50"
-        fab:menu_icon="@drawable/fab_add"
-        fab:menu_buttonSpacing="0dp"
-        fab:menu_labels_margin="0dp"
-        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
-        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
-        fab:menu_labels_paddingTop="4dp"
-        fab:menu_labels_paddingRight="8dp"
-        fab:menu_labels_paddingBottom="4dp"
-        fab:menu_labels_paddingLeft="8dp"
-        fab:menu_labels_padding="8dp"
-        fab:menu_labels_textColor="#FFFFFF"
-        fab:menu_labels_textSize="14sp"
-        fab:menu_labels_cornerRadius="3dp"
-        fab:menu_labels_colorNormal="@color/colorPrimaryDark"
-        fab:menu_labels_colorPressed="@color/colorPrimaryDark"
-        fab:menu_labels_colorRipple="@color/colorPrimaryDark"
-        fab:menu_labels_showShadow="true"
-        fab:menu_labels_singleLine="false"
-        fab:menu_labels_ellipsize="none"
-        fab:menu_labels_maxLines="-1"
-        fab:menu_labels_position="left"
-        fab:menu_openDirection="up"
-
-
-        >
-        <com.github.clans.fab.FloatingActionButton
-            fab:fab_colorPressed="@color/colorPrimaryDark"
-            fab:fab_colorRipple="@color/colorPrimaryDark"
-            fab:fab_colorNormal="@color/colorPrimaryDark"
-            android:id="@+id/view_statistics"
-            android:onClick="startShowStatisticsActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_pie_chart"
-            fab:fab_size="mini"
-            fab:fab_label="Show Statistics" />
-
-
-        <com.github.clans.fab.FloatingActionButton
-            fab:fab_colorPressed="@color/colorPrimaryDark"
-            fab:fab_colorRipple="@color/colorPrimaryDark"
-            fab:fab_colorNormal="@color/colorPrimaryDark"
-            android:id="@+id/view_profile"
-            android:onClick="startViewProfileActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_view_profile"
-            fab:fab_size="mini"
-            fab:fab_label="View Profile" />
-
-
-        <com.github.clans.fab.FloatingActionButton
-            fab:fab_colorPressed="@color/colorPrimaryDark"
-            fab:fab_colorRipple="@color/colorPrimaryDark"
-            fab:fab_colorNormal="@color/colorPrimaryDark"
-            android:id="@+id/policePhoneNUmber"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="startViewPolicePhoneNoActivity"
-            android:src="@drawable/ic_action_name"
-            fab:fab_size="mini"
-            fab:fab_label="Police Phone Number" />
-
-        <com.github.clans.fab.FloatingActionButton
-            fab:fab_colorPressed="@color/colorPrimaryDark"
-            fab:fab_colorRipple="@color/colorPrimaryDark"
-            fab:fab_colorNormal="@color/colorPrimaryDark"
-            android:id="@+id/createAwareness"
-            android:layout_width="wrap_content"
-            android:onClick="startCreateAwareNessActivity"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_create_awareness"
-            fab:fab_size="mini"
-            fab:fab_label="Create awareness" />
-
-    </com.github.clans.fab.FloatingActionMenu>
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:fitsSystemWindows="true"
+            fab:layout_collapseMode="parallax"
+            fab:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+
+
+            <include
+                android:id="@+id/toolbarlayoutinmainactivity"
+                layout="@layout/toolbar_layout_in_main_activity"
+                fab:layout_collapseMode="parallax" />
+
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/search_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                fab:layout_collapseMode="parallax" />
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
     </android.support.design.widget.AppBarLayout>
 
 
-
-    <FrameLayout
-        android:id="@+id/toolbar_container"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        fab:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include
-            android:id="@+id/toolbarlayoutinmainactivity"
-            layout="@layout/toolbar_layout_in_main_activity" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false">
 
 
+        </android.support.v7.widget.RecyclerView>
 
-        <com.miguelcatalan.materialsearchview.MaterialSearchView
-            android:id="@+id/search_view"
-            android:layout_margin="0dp"
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <ImageView
+        android:id="@+id/no_internet_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:fontFamily="casual"
+        fab:menu_animationDelayPerItem="50"
+        fab:menu_buttonSpacing="0dp"
+        fab:menu_colorNormal="@color/colorPrimaryDark"
+        fab:menu_colorPressed="@color/colorPrimaryDark"
+        fab:menu_colorRipple="@color/colorPrimaryDark"
+        fab:menu_fab_size="normal"
+        fab:menu_icon="@drawable/fab_add"
+        fab:menu_labels_colorNormal="@color/colorPrimaryDark"
+        fab:menu_labels_colorPressed="@color/colorPrimaryDark"
+        fab:menu_labels_colorRipple="@color/colorPrimaryDark"
+        fab:menu_labels_cornerRadius="3dp"
+        fab:menu_labels_ellipsize="none"
+        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+        fab:menu_labels_margin="0dp"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_padding="8dp"
+        fab:menu_labels_paddingBottom="4dp"
+        fab:menu_labels_paddingLeft="8dp"
+        fab:menu_labels_paddingRight="8dp"
+        fab:menu_labels_paddingTop="4dp"
+        fab:menu_labels_position="left"
+        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_singleLine="false"
+        fab:menu_labels_textColor="#FFFFFF"
+        fab:menu_labels_textSize="14sp"
+        fab:menu_openDirection="up"
+        fab:menu_shadowColor="@color/colorPrimaryDark"
+        fab:menu_shadowRadius="4dp"
+        fab:menu_shadowXOffset="1dp"
+        fab:menu_shadowYOffset="3dp"
+        fab:menu_showShadow="true"
+
+
+        >
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/view_statistics"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:onClick="startShowStatisticsActivity"
+            android:src="@drawable/ic_action_pie_chart"
+            fab:fab_colorNormal="@color/colorPrimaryDark"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_colorRipple="@color/colorPrimaryDark"
+            fab:fab_label="Show Statistics"
+            fab:fab_size="mini" />
 
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/view_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startViewProfileActivity"
+            android:src="@drawable/ic_action_view_profile"
+            fab:fab_colorNormal="@color/colorPrimaryDark"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_colorRipple="@color/colorPrimaryDark"
+            fab:fab_label="View Profile"
+            fab:fab_size="mini" />
 
-</FrameLayout>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/policePhoneNUmber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startViewPolicePhoneNoActivity"
+
+            android:src="@drawable/ic_action_name"
+            fab:fab_colorNormal="@color/colorPrimaryDark"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_colorRipple="@color/colorPrimaryDark"
+            fab:fab_label="Police Phone Number"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/createAwareness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startCreateAwareNessActivity"
+            android:src="@drawable/ic_action_create_awareness"
+            fab:fab_colorNormal="@color/colorPrimaryDark"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_colorRipple="@color/colorPrimaryDark"
+            fab:fab_label="Create awareness"
+            fab:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+
+</android.support.design.widget.CoordinatorLayout>
