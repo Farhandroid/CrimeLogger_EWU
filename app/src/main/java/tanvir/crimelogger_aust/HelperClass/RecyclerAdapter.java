@@ -1,5 +1,6 @@
 package tanvir.crimelogger_aust.HelperClass;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -165,12 +166,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
                     int position = getAdapterPosition();
 
 
-
+                    Activity activity = (Activity) context;
                     Intent myIntent = new Intent(context, PostViewActivity.class);
                     myIntent.putExtra("cameFromWhichActivity",cameFromWhichActivity);
                     myIntent.putExtra("postDateAndTime", userPostMCS.get(position).getPostDateAndTime());
                     myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    context.startActivity(myIntent);
+                    activity.startActivity(myIntent);
+                    activity.overridePendingTransition(R.anim.left_in, R.anim.left_out);
+
 
                     ///Toast.makeText(context, "Click on : "+userPostMCS.get(position).getPostDateAndTime(), Toast.LENGTH_SHORT).show();
 

@@ -24,50 +24,29 @@ public class PoliceNumberActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-
     private MaterialSearchView searchView;
-
     private ArrayList<String> police_numberAL;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_police_number);
-
         recyclerView = findViewById(R.id.recyclerViewToShowPN);
-
         searchView=findViewById(R.id.search_view_in_PoilcePhoneNumber);
-
-
         Toolbar toolbar = findViewById(R.id.toolbarInPoilcePhoneNumber);
         setSupportActionBar(toolbar);
-
-
         police_numberAL = new ArrayList<String>();
         Resources res = getResources();
         Collections.addAll(police_numberAL, res.getStringArray(R.array.police_number));
-
-
-
         updateRecyclerView(police_numberAL);
-
-
-
-
     }
-
-
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_items, menu);
-
         MenuItem item = menu.findItem(R.id.action_search);
         searchView.setMenuItem(item);
-
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 if (query.length()>0)
                 {
                     //retrieveCrimeType(query);
@@ -76,17 +55,12 @@ public class PoliceNumberActivity extends AppCompatActivity {
                 else
                     TastyToast.makeText(getApplicationContext(), "Please Enter Place Name", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
 
-
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 ArrayList<String> police_numberAlCopy=new ArrayList<>();
-
-
                 for (int i=0;i<police_numberAL.size();i++)
                 {
                     String data = police_numberAL.get(i);
@@ -96,10 +70,7 @@ public class PoliceNumberActivity extends AppCompatActivity {
                         police_numberAlCopy.add(data);
                     }
                 }
-
                 updateRecyclerView(police_numberAlCopy);
-
-
                 return false;
             }
         });
@@ -107,16 +78,10 @@ public class PoliceNumberActivity extends AppCompatActivity {
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-
-
-
             }
-
             @Override
             public void onSearchViewClosed() {
-
                 updateRecyclerView(police_numberAL);
-
             }
         });
 
@@ -126,11 +91,9 @@ public class PoliceNumberActivity extends AppCompatActivity {
     public void updateRecyclerView(ArrayList<String> police_numberAL )
     {
         adapter = new RecyclerAdapterToShowPolicePhoneNumber(this, police_numberAL);
-
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-
         recyclerView.setAdapter(adapter);
     }
 
@@ -142,8 +105,6 @@ public class PoliceNumberActivity extends AppCompatActivity {
         }
         else
             startMainActivity();
-
-
     }
 
     public void startMainActivity() {
@@ -153,6 +114,5 @@ public class PoliceNumberActivity extends AppCompatActivity {
         this.startActivity(myIntent);
         overridePendingTransition(R.anim.left_in, R.anim.left_out);
         finish();
-
     }
 }
