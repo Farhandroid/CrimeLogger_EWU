@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activityBackground"
-    tools:context="tanvir.crimelogger_aust.Activity.UserRegistration">
+    tools:context="tanvir.crimelogger_ewu.Activity.UserRegistration">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"

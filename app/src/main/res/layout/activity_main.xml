@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/activityBackground"
     android:orientation="vertical"
-    tools:context="tanvir.crimelogger_aust.Activity.MainActivity">
+    tools:context="tanvir.crimelogger_ewu.Activity.MainActivity">
 
 
     <android.support.design.widget.AppBarLayout

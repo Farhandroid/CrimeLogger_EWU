@@ -9,4 +9,5 @@
     <color name="black">#000000</color>
     <color name="Red">#F44336</color>
     <color name="progress_diaog_color">#37474F</color>
+    <color name="showStatisTicsCardViewColor">#90A4AE</color>
 </resources>

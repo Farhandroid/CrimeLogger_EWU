@@ -8,11 +8,11 @@
     android:background="@color/activityBackground"
     android:orientation="vertical"
     android:padding="5dp"
-    tools:context="tanvir.crimelogger_aust.Activity.PushNotification"
+    tools:context="tanvir.crimelogger_ewu.Activity.PushNotification"
     >
 
     <android.support.design.widget.CoordinatorLayout
-        tools:context="tanvir.crimelogger_aust.Activity.PushNotification"
+        tools:context="tanvir.crimelogger_ewu.Activity.PushNotification"
         android:id="@+id/coorLoyt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -24,7 +24,7 @@
             android:background="@color/activityBackground"
             android:orientation="vertical"
             android:padding="5dp"
-            tools:context="tanvir.crimelogger_aust.Activity.PushNotification">
+            tools:context="tanvir.crimelogger_ewu.Activity.PushNotification">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/imageCardViewInPushNotification"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activityBackground"
-    tools:context="tanvir.crimelogger_aust.Activity.UserLogin">
+    tools:context="tanvir.crimelogger_ewu.Activity.UserLogin">
 
     <RelativeLayout
         android:layout_width="match_parent"
