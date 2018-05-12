@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
+import ru.whalemare.sheetmenu.SheetMenu;
 import tanvir.crimelogger_ewu.MOdelClass.PieChartDataMC;
 import tanvir.crimelogger_ewu.MOdelClass.UserPostMC;
 import tanvir.crimelogger_ewu.R;
@@ -43,6 +44,7 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
 
     private ArrayList<UserPostMC> allUserPostMCSData;
     private ArrayList<UserPostMC> userPostMCS;
+    private ArrayList<UserPostMC> copyUserPostMCForDateAndTimeSort;
     private ArrayList<String> crimeType;
     private ArrayList<String> seperatedCrimeType;
     RelativeLayout emptyRelativeLayout;
@@ -58,7 +60,8 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
     private String dateFrom, dateTo;
     Context context;
     TextView timeRangeTV, dateRangeTV;
-
+    String timeCopy;
+    private boolean isItsortByDateAndTime=false,isAlreadyInSortDate=false;;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +85,9 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
         relativeLayout.setVisibility(View.VISIBLE);
         userPostMCS = new ArrayList<>();
         context = ShowStatistics.this;
+        copyUserPostMCForDateAndTimeSort=new ArrayList<>();
         timeRangeTV = findViewById(R.id.timeRangeTV);
-        dateRangeTV = findViewById(R.id.dateRangeTV);
+//        dateRangeTV = findViewById(R.id.dateRangeTV);
         retrivesharedpreference();
     }
 
@@ -97,6 +101,43 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
             allUserPostMCSData = new ArrayList<>(Arrays.asList(text));
         }
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_items, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchedCrimePlace = query;
+                ///searchedMonthTV.setText("Select Month");
+
+                if (query.length() > 0) {
+                    retrieveCrimeType(query);
+                    timeRangeTV.setText("");
+//                    setPieChart();
+                } else
+                    TastyToast.makeText(getApplicationContext(), "Please Enter Place Name", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+            }
+        });
+        return true;
     }
 
     public void retrieveCrimeType(String query) {
@@ -125,7 +166,14 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
             pieChart.setVisibility(View.VISIBLE);
             relativeLayout.setVisibility(View.GONE);
             pieCharts.clear();
-            seperateCrimeType();
+            if (isItsortByDateAndTime && isAlreadyInSortDate==false)
+            {
+                isAlreadyInSortDate=false;
+                showDateRange();
+            }
+
+            else
+                seperateCrimeType();
         } else {
             emptyRelativeLayout.setVisibility(View.VISIBLE);
             pieChart.setVisibility(View.GONE);
@@ -249,51 +297,17 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
         finish();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_items, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchedCrimePlace = query;
-                ///searchedMonthTV.setText("Select Month");
 
-                if (query.length() > 0) {
-                    retrieveCrimeType(query);
-//                    setPieChart();
-                } else
-                    TastyToast.makeText(getApplicationContext(), "Please Enter Place Name", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-
-            }
-        });
-        return true;
-    }
-
-
-    public void showDateRange(View view) {
+    public void showDateRange() {
+        isAlreadyInSortDate=true;
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance((DatePickerDialog.OnDateSetListener) ShowStatistics.this, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
         dpd.setMaxDate(now);
         dpd.show(ShowStatistics.this.getFragmentManager(), "Datepickerdialog");
     }
 
-    public void showTimeRange(View view) {
+    public void showTimeRange() {
+        isAlreadyInSortDate=false;
         Calendar now = Calendar.getInstance();
         TimePickerDialog tpd = TimePickerDialog.newInstance((TimePickerDialog.OnTimeSetListener) ShowStatistics.this, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false);
         tpd.show(ShowStatistics.this.getFragmentManager(), "Timepickerdialog");
@@ -302,10 +316,26 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
         String date = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year + " To  " + dayOfMonthEnd + "/" + (monthOfYearEnd + 1) + "/" + yearEnd;
-        dateRangeTV.setText(date);
+
+        if (isItsortByDateAndTime)
+        {
+            Log.d("timeCopyInDate",timeCopy);
+            Log.d("sortByDateAndTimeDate","isItsortByDateAndTime");
+            timeRangeTV.setText("");
+            timeRangeTV.setText(timeCopy+" and \n"+date);
+        }
+        else
+            timeRangeTV.setText(date);
+
         dateFrom = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
         dateTo = dayOfMonthEnd + "/" + (monthOfYearEnd + 1) + "/" + yearEnd;
-        sortByDate();
+        if (isItsortByDateAndTime)
+        {
+            sortByDate(copyUserPostMCForDateAndTimeSort);
+            isItsortByDateAndTime=false;
+        }
+        else
+          sortByDate();
     }
 
     @Override
@@ -344,6 +374,8 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
         String hourStringEnd = hourOfDayEnd < 10 ? "0" + hourOfDayEnd : "" + hourOfDayEnd;
         String minuteStringEnd = minuteEnd < 10 ? "0" + minuteEnd : "" + minuteEnd;
         String time = hourString + ":" + minuteString + ":" + hourOfDayFormat + " To " + hourStringEnd + ":" + minuteStringEnd + ":" + hourOfDayEndFormat;
+        timeCopy=time;
+        Log.d("timeCopyInTime",timeCopy);
         timeRangeTV.setText(time);
         timeFrom = hourString + ":" + minuteString + " " + hourOfDayFormat;
         timeTo = hourStringEnd + ":" + minuteStringEnd + " " + hourOfDayEndFormat;
@@ -354,24 +386,70 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
     }
 
     public int getTimeInInteger(String time) {
-        String timeCopy = time;
-        time = time.substring(0, time.length() - 2);
-        time = time.replace(":", "");
-        if (timeCopy.contains("PM")) {
-            String timeSub = time.substring(0, 2);
-            timeSub = timeSub.trim();
-            int i1 = Integer.parseInt(timeSub);
-            i1 += 12;
-            time = Integer.toString(i1) + time.substring(2);
+        if (!time.contains("Unkn"))
+        {
+            String timeCopy = time;
+            time = time.substring(0, time.length() - 2);
+            time = time.replace(":", "");
+            if (timeCopy.contains("PM")) {
+                String timeSub = time.substring(0, 2);
+                timeSub = timeSub.trim();
+                int i1 = Integer.parseInt(timeSub);
+                i1 += 12;
+                time = Integer.toString(i1) + time.substring(2);
 
+            }
+            time = time.trim();
+            time = time.replaceAll(" ", "");
+            int timeInt = Integer.parseInt(time);
+            return timeInt;
         }
-        time = time.trim();
-        time = time.replaceAll(" ", "");
-        int timeInt = Integer.parseInt(time);
-        return timeInt;
+        else
+            return 0;
+
     }
 
     public void sortByDate() {
+        ///Toast.makeText(activity, "SortByDate", Toast.LENGTH_SHORT).show();
+        crimeType.clear();
+        for (int i = 0; i < userPostMCS.size(); i++) {
+            String date = userPostMCS.get(i).getCrimeDate();
+
+            if (!date.contains("Unkn"))
+            {
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+
+                try {
+                    Date dateFromDate = format.parse(dateFrom);
+                    Date dateToDate = format.parse(dateTo);
+                    Date date2 = format.parse(date);
+
+                    if (date2.compareTo(dateFromDate) > 0 && date2.compareTo(dateToDate) < 0) {
+                        crimeType.add(userPostMCS.get(i).getCrimeType());
+                        //Toast.makeText(context, " name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate() + "\ntime : " + userPostMCS.get(i).getCrimeTime(), Toast.LENGTH_SHORT).show();
+                    } else if (date2.compareTo(dateFromDate) < 0 && date2.compareTo(dateToDate) > 0) {
+                        crimeType.add(userPostMCS.get(i).getCrimeType());
+                        //Toast.makeText(context, " name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate() + "\ntime : " + userPostMCS.get(i).getCrimeTime(), Toast.LENGTH_SHORT).show();
+
+                    } else if (date2.compareTo(dateFromDate) == 0 || date2.compareTo(dateToDate) == 0) {
+                        crimeType.add(userPostMCS.get(i).getCrimeType());
+                        ///Toast.makeText(context, " name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate() + "\ntime : " + userPostMCS.get(i).getCrimeTime(), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Log.d("sortByDateExcption", e.toString());
+                    ///Toast.makeText(context, "ParseException : " + e.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            }
+
+        setEmptyRelativeLayoutVisibility();
+    }
+
+    public void sortByDate(ArrayList<UserPostMC> userPostMCS ) {
         ///Toast.makeText(activity, "SortByDate", Toast.LENGTH_SHORT).show();
         crimeType.clear();
         for (int i = 0; i < userPostMCS.size(); i++) {
@@ -422,6 +500,7 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
         }
         String time;
         int timeInt;
+        ArrayList<UserPostMC> copyUserPostMCS=new ArrayList<>();
 
         crimeType.clear();
         for (int i = 0; i < userPostMCS.size(); i++) {
@@ -431,6 +510,7 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
                 Log.d("Enter", "AM to PM");
                 if ((timeInt >= 100 && timeInt <= timeFromInt) || (timeInt >= timeToInt && timeInt <= 2459)) {
                     crimeType.add(userPostMCS.get(i).getCrimeType());
+                    copyUserPostMCS.add(userPostMCS.get(i));
                     Log.d("namePlaceAMPm  ", "name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate());
                     ///Toast.makeText(context, " name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate() + "\ntime : " + userPostMCS.get(i).getCrimeTime(), Toast.LENGTH_SHORT).show();
                 }
@@ -438,6 +518,7 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
             } else if (isTimeFromBig) {
                 if ((timeInt >= 100 && timeInt <= timeToInt) || (timeInt >= timeFromInt && timeInt <= 2459)) {
                     crimeType.add(userPostMCS.get(i).getCrimeType());
+                    copyUserPostMCS.add(userPostMCS.get(i));
                     Log.d("namePlaceAMPm  ", "name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate());
                     ///Toast.makeText(context, " name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate() + "\ntime : " + userPostMCS.get(i).getCrimeTime(), Toast.LENGTH_SHORT).show();
 
@@ -445,15 +526,40 @@ public class ShowStatistics extends AppCompatActivity implements TimePickerDialo
 
             } else if (timeInt == timeFromInt || timeInt == timeToInt) {
                 crimeType.add(userPostMCS.get(i).getCrimeType());
+                copyUserPostMCS.add(userPostMCS.get(i));
                 Log.d("namePlaceNormal  ", "name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate());
                /// Toast.makeText(context, " name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate() + "\ntime : " + userPostMCS.get(i).getCrimeTime(), Toast.LENGTH_SHORT).show();
             } else if ((timeInt > timeFromInt && timeInt < timeToInt)) {
                 crimeType.add(userPostMCS.get(i).getCrimeType());
+                copyUserPostMCS.add(userPostMCS.get(i));
                 Log.d("namePlaceNormal  ", "name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate());
                 ///Toast.makeText(context, " name : " + userPostMCS.get(i).getCrimePlace() + "\ndate : " + userPostMCS.get(i).getCrimeDate() + "\ntime : " + userPostMCS.get(i).getCrimeTime(), Toast.LENGTH_SHORT).show();
             }
             ///Toast.makeText(context,"time : "+time, Toast.LENGTH_SHORT).show();
         }
+        copyUserPostMCForDateAndTimeSort=copyUserPostMCS;
         setEmptyRelativeLayoutVisibility();
+    }
+
+
+    public void showCrimeSortSheetMenu(View view) {
+        SheetMenu.with(this).setTitle("Select Option").setMenu(R.menu.crime_type_sort_menu).setAutoCancel(true).setClick(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.sortByTime) {
+                    isItsortByDateAndTime=false;
+                        showTimeRange();
+                } else if (item.getItemId() == R.id.sortByDate) {
+                    isItsortByDateAndTime=false;
+                        showDateRange();
+                } else if (item.getItemId() == R.id.sortByDateAndTime) {
+                    isItsortByDateAndTime=true;
+                    showTimeRange();
+                    ///setLogginnInformation();
+                    ///TastyToast.makeText(getApplicationContext(), "Logged out successfull", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                }
+                return false;
+            }
+        }).show();
     }
 }

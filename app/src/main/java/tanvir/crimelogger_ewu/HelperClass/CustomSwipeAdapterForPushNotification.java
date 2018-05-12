@@ -24,7 +24,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.kaopiz.kprogresshud.KProgressHUD;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;

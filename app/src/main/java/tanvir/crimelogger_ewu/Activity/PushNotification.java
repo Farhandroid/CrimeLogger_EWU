@@ -21,7 +21,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.kaopiz.kprogresshud.KProgressHUD;
 import com.sdsmdg.tastytoast.TastyToast;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -35,6 +34,7 @@ import java.util.Map;
 
 import tanvir.crimelogger_ewu.HelperClass.CustomSwipeAdapterForPushNotification;
 import tanvir.crimelogger_ewu.HelperClass.MySingleton;
+import tanvir.crimelogger_ewu.HelperClass.ProgressDialog;
 import tanvir.crimelogger_ewu.MOdelClass.UserPostMC;
 import tanvir.crimelogger_ewu.R;
 
@@ -47,7 +47,7 @@ public class PushNotification extends AppCompatActivity {
     ArrayList<String> imageName;
     ArrayList<UserPostMC> userPostMCS;
     int NUM_PAGES = 0;
-    KProgressHUD hud;
+   ProgressDialog progressDialog;
     String push_data;
     TextView breakingNewsTV;
 
@@ -58,7 +58,7 @@ public class PushNotification extends AppCompatActivity {
         imageName = new ArrayList<>();
         breakingNewsTV = findViewById(R.id.breakingNewsTV);
         ///breakingNewsTV.setText("fuck");
-        initializeKHUDprogress();
+        progressDialog=new ProgressDialog(this);
         imageCardViewInPushNotification = findViewById(R.id.imageCardViewInPushNotification);
         if (getIntent().getExtras() != null) {
             push_data = getIntent().getStringExtra("push_data");
@@ -80,12 +80,12 @@ public class PushNotification extends AppCompatActivity {
     }
 
     public void retrivePostImageDataFromServer() {
-        hud.show();
+      progressDialog.showProgressDialog();
         String url = "http://www.farhandroid.com/CrimeLogger/Script/retrivePushNotificationImageData.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                hud.dismiss();
+               progressDialog.hideProgressDialog();
                 Toast.makeText(context, "respons : " + response, Toast.LENGTH_LONG).show();
                 if (response.contains("image data not found")) {
                     showErrorInMainThread("Problem in image fetch \n please contact with devloper or try later  ");
@@ -102,7 +102,7 @@ public class PushNotification extends AppCompatActivity {
                         initialView();
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        hud.dismiss();
+                        progressDialog.hideProgressDialog();
                         showErrorInMainThread("Json Exception \n please contact with devloper or try later  " + e.toString());
                     }
                 }
@@ -110,7 +110,7 @@ public class PushNotification extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                hud.dismiss();
+                progressDialog.hideProgressDialog();
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     showErrorInMainThread("Time out or no connection error \n Please check connection");
 
@@ -144,21 +144,18 @@ public class PushNotification extends AppCompatActivity {
         TastyToast.makeText(getApplicationContext(), response, TastyToast.LENGTH_LONG, TastyToast.ERROR);
     }
 
-    public void initializeKHUDprogress() {
-        hud = KProgressHUD.create(context).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setDimAmount(0.6f).setLabel("Please Wait").setCancellable(false);
-    }
 
     public void onBackPressed() {
         super.onBackPressed();
     }
 
     public void retrievePushNotificationDataFromServer() {
-        hud.show();
+        progressDialog.hideProgressDialog();
         String url = "http://www.farhandroid.com/CrimeLogger/Script/retrivePushNotificationData.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                hud.dismiss();
+                progressDialog.hideProgressDialog();
                 final JSONObject pushDataInfo;
                 JSONArray jsonArray;
                 try {
@@ -181,7 +178,7 @@ public class PushNotification extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                hud.dismiss();
+                progressDialog.hideProgressDialog();
                 breakingNewsTV.setText("error : " + error.toString());
             }
         }) {

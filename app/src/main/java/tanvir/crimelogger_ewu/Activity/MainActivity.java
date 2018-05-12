@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,9 +44,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import tanvir.crimelogger_ewu.HelperClass.AppController;
 import tanvir.crimelogger_ewu.HelperClass.ProgressDialog;
@@ -63,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
     ImageView noInternetImageView;
     private MaterialSearchView searchView;
     private SharedPreferences prefs;
-    String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE
-    };
+    String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
     ArrayList<UserPostMC> userPostMCS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -314,6 +321,7 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.left_in, R.anim.left_out);
         finish();
     }
+
     public void checkLoginSharedPrefferenceForCreateAwareness() {
         if (isLogged != null) {
             if (isLogged.contains("yes")) {
@@ -366,8 +374,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onDestroy() {
         super.onDestroy();
-        if (progressDialog.getAlertDialog()!=null)
-            progressDialog.hideProgressDialog();
+        if (progressDialog.getAlertDialog() != null) progressDialog.hideProgressDialog();
     }
 
     public void startShowStatisticsActivity(View view) {
@@ -406,9 +413,11 @@ public class MainActivity extends AppCompatActivity {
             Glide.with(MainActivity.this).load(R.drawable.no_internet_image).into(noInternetImageView);
         }
     }
+
     public void relodDtaFromServer(View view) {
         checkOnLineOrNOt();
     }
+
     public void clearPostDataSharedPrefference() {
         SharedPreferences preferences = getSharedPreferences("PostData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -422,7 +431,36 @@ public class MainActivity extends AppCompatActivity {
             volumeKeyPressed++;
             if (volumeKeyPressed == 2) {
                 volumeKeyPressed = 0;
-                Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
+                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    checkPermissions();
+                }
+                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if(location==null){
+                    location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    Log.d("locationKey",location.toString());
+                    Geocoder geocoder;
+                    List<Address> addresses;
+                    geocoder=new Geocoder(MainActivity.this, Locale.getDefault());
+                    try {
+                        addresses=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                        Log.d("city",addresses.get(0).getLocality());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.d("locationxcptn",e.toString());
+                    }
+                }
+                else
+                    Log.d("locationKey","null");
+
             }
             return true;
         } else return super.onKeyDown(keyCode, event);

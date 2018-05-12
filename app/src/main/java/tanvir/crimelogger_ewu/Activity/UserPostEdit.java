@@ -39,7 +39,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
-import com.kaopiz.kprogresshud.KProgressHUD;
 import com.sangcomz.fishbun.FishBun;
 import com.sangcomz.fishbun.define.Define;
 import com.sdsmdg.tastytoast.TastyToast;
@@ -66,6 +65,7 @@ import id.zelory.compressor.Compressor;
 import tanvir.crimelogger_ewu.HelperClass.CustomSwipeAdapterForEditPost;
 import tanvir.crimelogger_ewu.HelperClass.MyCommand;
 import tanvir.crimelogger_ewu.HelperClass.MySingleton;
+import tanvir.crimelogger_ewu.HelperClass.ProgressDialog;
 import tanvir.crimelogger_ewu.MOdelClass.UserPostMC;
 import tanvir.crimelogger_ewu.R;
 
@@ -81,7 +81,7 @@ public class UserPostEdit extends AppCompatActivity {
     private CirclePageIndicator indicator;
     private ArrayList<UserPostMC> userPostMCS;
     private ArrayList<UserPostMC> userPostMCSCOPY;
-    private KProgressHUD hud;
+    private ProgressDialog progressDialog;
     private ArrayList<String> imageName;
     private ArrayList<String> imageNameCOPY;
     private ArrayList<String> deleteImage;
@@ -107,7 +107,7 @@ public class UserPostEdit extends AppCompatActivity {
         crimeTypeET = findViewById(R.id.crimeTypeETInUserPostEdit);
         crimeDescriptionET = findViewById(R.id.crimeDescETInUserPostEdit);
         indicator = findViewById(R.id.indicatorInUserPostEdit);
-        initializeKHUDprogress();
+        progressDialog=new ProgressDialog(this);
         postDateAndTime = getIntent().getStringExtra("postDateAndTime");
         userName = getIntent().getStringExtra("userName");
         ArrayList<String> stringArrayList = new ArrayList<String>();
@@ -196,7 +196,7 @@ public class UserPostEdit extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-                hud.dismiss();
+                progressDialog.hideProgressDialog();
                 ///crimeDescriptionTV.setText(response);
                 try {
                     JSONArray jsonArray = new JSONArray(response);
@@ -216,14 +216,14 @@ public class UserPostEdit extends AppCompatActivity {
                     /// Toast.makeText(PostViewActivity.this, "Image data found", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    hud.dismiss();
+                    progressDialog.hideProgressDialog();
                     showErrorImageInMainThread("Json Exception \n please contact with devloper or try later  " + e.toString());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                hud.dismiss();
+                progressDialog.hideProgressDialog();
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     showErrorImageInMainThread("Time out or no connection error  \n Please check connection");
                 } else if (error instanceof AuthFailureError) {
@@ -253,16 +253,12 @@ public class UserPostEdit extends AppCompatActivity {
 
 
     public void showErrorImageInMainThread(final String response) {
-        hud.dismiss();
+        progressDialog.hideProgressDialog();
         UserPostEdit.this.runOnUiThread(new Runnable() {
             public void run() {
                 TastyToast.makeText(getApplicationContext(), response, TastyToast.LENGTH_LONG, TastyToast.ERROR);
             }
         });
-    }
-
-    public void initializeKHUDprogress() {
-        hud = KProgressHUD.create(UserPostEdit.this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setDimAmount(0.6f).setLabel("Please Wait").setCancellable(false);
     }
 
     public void slectCrimeTimeInPostEdit(View view) {
@@ -307,7 +303,7 @@ public class UserPostEdit extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent imageData) {
-        hud.dismiss();
+        progressDialog.hideProgressDialog();
         switch (requestCode) {
             case Define.ALBUM_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
@@ -333,7 +329,7 @@ public class UserPostEdit extends AppCompatActivity {
     }
 
     public void updateUserPost(View view) {
-        hud.show();
+        progressDialog.showProgressDialog();
         findToBeDeletedImage();
     }
 
@@ -422,7 +418,7 @@ public class UserPostEdit extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
-                    hud.dismiss();
+                    progressDialog.hideProgressDialog();
                     if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                         showErrorImageInMainThread("Time out or no connection error \n Please check connection");
                     } else if (error instanceof AuthFailureError) {
@@ -482,7 +478,7 @@ public class UserPostEdit extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(final VolleyError error) {
-                    hud.dismiss();
+                    progressDialog.hideProgressDialog();
                     if (responseAL.size() == 0 && showedSuccessInsertionDialog == false && showedTimeOutError == false) {
                         showedTimeOutError = true;
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
@@ -547,18 +543,18 @@ public class UserPostEdit extends AppCompatActivity {
                         }
                     });
                 } else if (response.contains("problen in query")) {
-                    hud.dismiss();
+                    progressDialog.hideProgressDialog();
                     showErrorImageInMainThread("Problem in Database \n Please contact with devloper or Try again later");
 
                 } else if (response.contains("Data Update Fail")) {
-                    hud.dismiss();
+                    progressDialog.hideProgressDialog();
                     showErrorImageInMainThread("User Post Update failed \n please contact with devloper or try later");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                hud.dismiss();
+                progressDialog.hideProgressDialog();
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     showErrorImageInMainThread("Time out or no connection error \n Please check connection");
 
@@ -605,7 +601,7 @@ public class UserPostEdit extends AppCompatActivity {
     public void showSuccessMsg() {
         UserPostEdit.this.runOnUiThread(new Runnable() {
             public void run() {
-                hud.dismiss();
+                progressDialog.hideProgressDialog();
             }
         });
 
@@ -693,7 +689,7 @@ public class UserPostEdit extends AppCompatActivity {
 
     public void startMainActivity() {
 
-        if (hud != null) hud.dismiss();
+        if (progressDialog.getAlertDialog() != null) progressDialog.hideProgressDialog();
         Intent myIntent = new Intent(this, MainActivity.class);
         myIntent.putExtra("cameFromWhichActivity", "UserPostEdit");
         myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -704,7 +700,7 @@ public class UserPostEdit extends AppCompatActivity {
 
     public void onDestroy() {
         super.onDestroy();
-        if (hud != null) hud.dismiss();
+        if (progressDialog.getAlertDialog() != null) progressDialog.hideProgressDialog();
     }
 
     public void onBackPressed() {
@@ -722,7 +718,7 @@ public class UserPostEdit extends AppCompatActivity {
 
     public void RetriveDataFromServer() {
         userPostMCS.clear();
-        hud.show();
+        progressDialog.showProgressDialog();
         String url = "http://www.farhandroid.com/CrimeLogger/Script/retriveUserPostFromDatabase.php";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -730,7 +726,7 @@ public class UserPostEdit extends AppCompatActivity {
                 if (response.length() == 0) {
                     UserPostEdit.this.runOnUiThread(new Runnable() {
                         public void run() {
-                            hud.dismiss();
+                            progressDialog.hideProgressDialog();
                         }
                     });
                 }
@@ -748,13 +744,13 @@ public class UserPostEdit extends AppCompatActivity {
                         ///Toast.makeText(MainActivity.this, "i = "+Integer.toString(i)+"\n"+"User post "+Integer.toString(userPostMCS.size()), Toast.LENGTH_SHORT).show();
                         if (i + 1 == response.length()) {
                             ///Toast.makeText(UserPostEdit.this, "enter array", Toast.LENGTH_SHORT).show();
-                            if (hud != null) hud.dismiss();
+                            if (progressDialog.getAlertDialog() != null) progressDialog.hideProgressDialog();
                             setSharedPrefference();
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        hud.dismiss();
+                        progressDialog.hideProgressDialog();
                         Toast.makeText(UserPostEdit.this, "Json Exception", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -762,7 +758,7 @@ public class UserPostEdit extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                hud.dismiss();
+                progressDialog.hideProgressDialog();
                 UserPostEdit.this.runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(UserPostEdit.this, "Volley Error : " + error.toString(), Toast.LENGTH_SHORT).show();

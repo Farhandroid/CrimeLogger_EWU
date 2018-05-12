@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".HelperClass.AppController"
@@ -50,6 +52,7 @@
             android:name=".Activity.UserPostEdit"
             android:screenOrientation="portrait" />
         <activity
+            android:theme="@style/AppThemeNoActioBar"
             android:name=".Activity.ShowStatistics"
             android:screenOrientation="portrait" />
         <activity

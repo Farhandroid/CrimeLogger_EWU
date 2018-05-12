@@ -10,4 +10,6 @@
     <color name="Red">#F44336</color>
     <color name="progress_diaog_color">#37474F</color>
     <color name="showStatisTicsCardViewColor">#90A4AE</color>
+    <color name="mdtp_accent_color">#37474F</color>
+    <color name="mdtp_accent_color_dark">#37474F</color>
 </resources>

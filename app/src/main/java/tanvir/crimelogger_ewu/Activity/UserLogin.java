@@ -125,7 +125,7 @@ public class UserLogin extends AppCompatActivity {
                                     }
                                 } else {
 
-                                    Toast.makeText(UserLogin.this, "Enter else", Toast.LENGTH_SHORT).show();
+                                    ///Toast.makeText(UserLogin.this, "Enter else", Toast.LENGTH_SHORT).show();
                                     startUserProfileActivity();
                                 }
                             }

@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.ablanco.zoomy.TapListener;
 import com.ablanco.zoomy.ZoomListener;
@@ -29,7 +30,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
-import com.kaopiz.kprogresshud.KProgressHUD;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
@@ -45,7 +45,6 @@ public class CustomSwipeAdapterForEditPost extends PagerAdapter {
     private ArrayList<String> images = new ArrayList<>();
     private LayoutInflater inflater;
     String defaultEmpTyImage;
-    KProgressHUD hud;
     private Context context;
     private int num_pages;
 
@@ -65,7 +64,7 @@ public class CustomSwipeAdapterForEditPost extends PagerAdapter {
     }
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((LinearLayout) object);
+        container.removeView((RelativeLayout) object);
     }
 
     @Override
