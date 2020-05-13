@@ -1,0 +1,2 @@
+# CrimeLogger_EWU
+This is an application to create social awareness. In this application user can share their crime experience with image. Also, a summary of crime of a place will be provided in pie chart. It has many features like user can hide their identity, report against a post and many more. I have used some animation and material design to beautify this app. It’s a complete server side (MySQL) application. 
